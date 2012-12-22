@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FragmentDialog</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <!--  -->
+    <color name="red_tint">#88FF0000</color>
+    <color name="blue_tint">#880000FF</color>
+    <color name="yellow_tint">#88FFFF00</color>
+    <color name="purple_tint">#88995f86</color>
+    <color name="orange_tint">#aaffbf00</color>
+    <color name="magenta_tint">#88ff33cc</color>
+    <color name="transparent">#0000</color>
+
+</resources>
