@@ -21,7 +21,7 @@ import android.view.View;
  * The Interface ViewDialogInterface.
  * @author Siddhesh
  */
-public interface ViewDialogInterface {
+public interface ViewDialogListener {
 	
 	/**
 	 * Gets the view.

@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.sid.dialoginterface.ViewDialogInterface;
+import com.sid.dialoginterface.ViewDialogListener;
 
 /**
  * The Class ViewDialogFragment.
@@ -36,7 +36,7 @@ public class ViewDialogFragment extends DialogFragment{
 	static Context mContext;
 	
 	/** The ViewDialogInterface object */
-	static ViewDialogInterface interfaceDialog;
+	static ViewDialogListener interfaceDialog;
 	
 	/** The title bar flag. */
 	boolean isTitleBarVisible;
@@ -58,7 +58,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param cancelable the cancelable
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Context ctx,Integer view,int style,Integer theme,ViewDialogInterface viewDialogInterface,boolean cancelable) {
+	public static ViewDialogFragment newInstance(Context ctx,Integer view,int style,Integer theme,ViewDialogListener viewDialogInterface,boolean cancelable) {
 		mContext=ctx;
 		interfaceDialog=viewDialogInterface;
 		Bundle args = new Bundle();
@@ -81,7 +81,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param viewDialogInterface the view dialog interface
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Context ctx,Integer view,ViewDialogInterface viewDialogInterface) {
+	public static ViewDialogFragment newInstance(Context ctx,Integer view,ViewDialogListener viewDialogInterface) {
 		mContext=ctx;
 		interfaceDialog=viewDialogInterface;
 		Bundle args = new Bundle();
