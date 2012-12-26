@@ -19,7 +19,8 @@ import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
-import com.sid.dialoginterface.AlertButtonsClickInterface;
+import com.sid.dialoginterface.AlertButtonsClickListener;
+import com.sid.dialoginterface.OnDateTimeSetListener;
 import com.sid.dialoginterface.ViewDialogInterface;
 import com.sid.fragmentdialog.AlertFragmentDialog;
 import com.sid.fragmentdialog.ViewDialogFragment;
@@ -72,7 +73,7 @@ public final class DialogHelper {
 	 * @param alertFrag the AlertButtonsClickInterface object
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickInterface alertFrag){
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag){
 		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null);
 	}
 	
@@ -89,7 +90,7 @@ public final class DialogHelper {
 	 * @param positiveText the text for positive button 
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickInterface alertFrag,String positiveText){
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,String positiveText){
 		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null);
 	}
 	
@@ -106,7 +107,7 @@ public final class DialogHelper {
 	 * @param cancelable the cancelable
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickInterface alertFrag,int type,boolean cancelable) {
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable) {
 	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,null,null);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
@@ -129,7 +130,7 @@ public final class DialogHelper {
 	 * @param negativeText the text for negative button
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickInterface alertFrag,int type,boolean cancelable,String positiveText,String negativeText) {
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText) {
 	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,positiveText,negativeText);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
@@ -148,6 +149,33 @@ public final class DialogHelper {
 	public static ViewDialogFragment getViewDialog(FragmentManager fm,Context ctx,Integer view,ViewDialogInterface vd){
 		sNewFragment = ViewDialogFragment.newInstance(ctx,view,vd);
 		return sNewFragment;
+	}
+	
+	/**
+	 * Shows the date picker dialog.
+	 * this function is used to show the date picker dialog.
+	 * @param fm the fragment manager
+	 * @param ctx the context
+	 * @param dateListener the OnDateTimeSetListener
+	 * @author Siddhesh
+	 */
+	public static void showDateDialog(FragmentManager fm,Context ctx,OnDateTimeSetListener dateListener){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,true,dateListener,AlertFragmentDialog.DATE_DIALOG);
+		newFragment.show(fm, "dialog");
+	}
+	
+	/**
+	 * Shows the time picker dialog.
+	 * this function is used to show the time picker dialog.
+	 * @param fm the fragment manager
+	 * @param ctx the context
+	 * @param is24Hour the time should be consider 24 hour or not
+	 * @param dateListener the OnDateTimeSetListener
+	 * @author Siddhesh
+	 */
+	public static void showTimeDialog(FragmentManager fm,Context ctx,boolean is24Hour,OnDateTimeSetListener dateListener){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG);
+		newFragment.show(fm, "dialog");
 	}
 	
 }

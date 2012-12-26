@@ -16,21 +16,30 @@
 package com.sid.fragmentdialog;
 
 
+import java.util.Calendar;
+
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
-import com.sid.dialoginterface.AlertButtonsClickInterface;
+import com.sid.dialoginterface.AlertButtonsClickListener;
+import com.sid.dialoginterface.OnDateTimeSetListener;
 
 /**
  * The Class AlertFragmentDialog.
  * This class shows Alert Dialog according to passed type.
  * @author Siddhesh
  */
-public final class AlertFragmentDialog extends DialogFragment{
+public final class AlertFragmentDialog extends DialogFragment implements OnDateSetListener,OnTimeSetListener{
 
 	/** The m context. */
 	private static Context mContext;
@@ -40,17 +49,17 @@ public final class AlertFragmentDialog extends DialogFragment{
 
 
 	/** The alert fragment. */
-	private static AlertButtonsClickInterface sAlertFragment;
+	private static AlertButtonsClickListener sAlertFragment;
+	
+	private static OnDateTimeSetListener dateTimeSetListener;
 
 	/** Various Response codes and Constants. */
 	public static final int DIALOG_TYPE_OK=988,/**Dialog with Positive button*/
 			DIALOG_TYPE_YES_NO=888,/**Dialog with Positive & Negative button*/
-			DIALOG_VIEW=654,/**Dialog with Custom View*/
-			COLOR_DIALOG=214;/**Dialog with Colored Tint*/
-
+			DATE_DIALOG=214,/**DATE picker dialog*/
+			TIME_DIALOG=686;/**Time picker Dialog*/
 	
-	private static Integer mView,/** The View. */
-							mStyle;/** The Style. */
+	private static int year, month, date,hour,minute;
 
 	/**
 	 * New instance of alert dialog.
@@ -64,7 +73,7 @@ public final class AlertFragmentDialog extends DialogFragment{
 	 * @return the fragment dialog
 	 * @author Siddhesh
 	 */
-	public static AlertFragmentDialog newInstance(int title,int message,AlertButtonsClickInterface alert,int type,String positiveText,String negativeText) {
+	public static AlertFragmentDialog newInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		sAlertFragment=alert;
 		Bundle args = new Bundle();
@@ -76,26 +85,37 @@ public final class AlertFragmentDialog extends DialogFragment{
 		frag.setArguments(args);
 		return frag;
 	}
-
+	
 	/**
 	 * New instance.
 	 *
-	 * @param ctx the ctx
-	 * @param style the style
-	 * @param view the view
-	 * @param type the type
+	 * @param ctx the context
+	 * @param is24Hour the is24 hour
+	 * @param dateTimeSetListener the date time set listener
+	 * @param type the type of dialog
 	 * @return the alert fragment dialog
 	 */
-	public static AlertFragmentDialog newInstance(Context ctx,Integer style,Integer view,int type) {
+	public static AlertFragmentDialog newInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type) {
 
 		mContext=ctx;
-		mStyle=style;
-		mView=view;
+		AlertFragmentDialog.dateTimeSetListener=dateTimeSetListener;
 		Bundle args = new Bundle();
 		args.putInt("type", type);
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		frag.setArguments(args);
-
+		
+		//initialize date
+		Calendar calendar = Calendar.getInstance();
+		year = calendar.get(Calendar.YEAR);
+		month = calendar.get(Calendar.MONTH);
+		date = calendar.get(Calendar.DATE);
+		
+		//initialize Time
+		if(is24Hour)
+			hour = calendar.get(Calendar.HOUR_OF_DAY);
+		else
+			hour = calendar.get(Calendar.HOUR);
+		minute = calendar.get(Calendar.MINUTE);
 		return frag;
 
 	}
@@ -158,41 +178,31 @@ public final class AlertFragmentDialog extends DialogFragment{
 					}
 							)
 							.create();
-
-		case DIALOG_VIEW:
-			/*AlertDialog.Builder al=new AlertDialog.Builder(getActivity())
-    		 //.setTitle(title)
-             .setView(mView)
-             .setPositiveButton(R.string.ok,
-                 new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int whichButton) {
-                     	 dialog.dismiss();
-                     	if(alertFragment!=null)
-                     		alertFragment.onPositiveButtonClick();
-
-                     }
-                 }
-             )
-             .setNegativeButton(R.string.cancel,
-                 new DialogInterface.OnClickListener() {
-                     public void onClick(DialogInterface dialog, int whichButton) {
-                     	dialog.dismiss();
-                     	if(alertFragment!=null)
-                     		alertFragment.onNegativeButtonClick();
-
-                     }
-                 }
-             );
-    		AlertDialog ald=al.create();*/
-			final Dialog dialog = new Dialog(mContext,mStyle);
-			dialog.setContentView(mView);
-			//dialog.setTitle("Title...");
-			return  dialog;
-
-		case COLOR_DIALOG:
+		case DATE_DIALOG:
+			return new DatePickerDialog(mContext, AlertFragmentDialog.this, year, month, date);	
+			
+		case TIME_DIALOG:
+			return new TimePickerDialog(mContext, AlertFragmentDialog.this, hour, minute, true);
 
 		}
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.TimePickerDialog.OnTimeSetListener#onTimeSet(android.widget.TimePicker, int, int)
+	 */
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		dateTimeSetListener.onTimeSet(view, hourOfDay, minute);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.DatePickerDialog.OnDateSetListener#onDateSet(android.widget.DatePicker, int, int, int)
+	 */
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear,
+			int dayOfMonth) {
+		dateTimeSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
 	}
 
 
