@@ -23,8 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.sid.dialoginterface.ViewDialogListener;
-
 /**
  * The Class ViewDialogFragment.
  * This clas gives a fragment dialog with users custome view
@@ -33,19 +31,21 @@ import com.sid.dialoginterface.ViewDialogListener;
 public class ViewDialogFragment extends DialogFragment{
 
 	/** The m context. */
-	static Context mContext;
+	//private static Context mContext;
 	
 	/** The ViewDialogInterface object */
-	static ViewDialogListener interfaceDialog;
+	//private static ViewDialogListener interfaceDialog;
 	
 	/** The title bar flag. */
-	boolean isTitleBarVisible;
+	private boolean isTitleBarVisible;
 	
 	/** The title bar text. */
-	String mTitle;
+	private String mTitle;
 	
 	/** The anim for dialog. */
-	Integer mAnim;
+	private Integer mAnim;
+	
+	private View mView;
 	
 	/**
 	 * New instance.
@@ -58,9 +58,9 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param cancelable the cancelable
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Context ctx,Integer view,int style,Integer theme,ViewDialogListener viewDialogInterface,boolean cancelable) {
-		mContext=ctx;
-		interfaceDialog=viewDialogInterface;
+	public static ViewDialogFragment newInstance(Context ctx,Integer view,int style,Integer theme,boolean cancelable) {
+		//mContext=ctx;
+		//interfaceDialog=viewDialogInterface;
 		Bundle args = new Bundle();
 		args.putInt("view", view);
 		args.putInt("theme", theme);
@@ -81,9 +81,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param viewDialogInterface the view dialog interface
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Context ctx,Integer view,ViewDialogListener viewDialogInterface) {
-		mContext=ctx;
-		interfaceDialog=viewDialogInterface;
+	public static ViewDialogFragment newInstance(Context ctx,Integer view) {
 		Bundle args = new Bundle();
 		args.putInt("view", view);
 		ViewDialogFragment frag = new ViewDialogFragment();
@@ -108,8 +106,7 @@ public class ViewDialogFragment extends DialogFragment{
 		Bundle bundle=getArguments();
 		int v=bundle.getInt("view");
 		View view=inflater.inflate(v, null);
-		if(interfaceDialog!=null)
-			interfaceDialog.getView(view);
+		mView=view;
 		return view;
 	}
 
@@ -131,5 +128,15 @@ public class ViewDialogFragment extends DialogFragment{
 	 */
 	public void setDialogAnimation(Integer animation){
 		mAnim=animation;
+	}
+	
+	
+	/**
+	 * Gets the dialog view.
+	 *
+	 * @return the dialog view
+	 */
+	public View getDialogView(){
+		return mView;
 	}
 }

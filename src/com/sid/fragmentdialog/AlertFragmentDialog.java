@@ -42,7 +42,7 @@ import com.sid.dialoginterface.OnDateTimeSetListener;
 public final class AlertFragmentDialog extends DialogFragment implements OnDateSetListener,OnTimeSetListener{
 
 	/** The m context. */
-	private static Context mContext;
+	private static Context sContext;
 
 	/** The Constant TYPE. */
 	private static final String TITLE="title",MESSAGE="message",POSITIVE="positive",NEGATIVE="negative",TYPE="type";
@@ -51,7 +51,8 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	/** The alert fragment. */
 	private static AlertButtonsClickListener sAlertFragment;
 	
-	private static OnDateTimeSetListener dateTimeSetListener;
+	/** The date time set listener. */
+	private static OnDateTimeSetListener sDateTimeSetListener;
 
 	/** Various Response codes and Constants. */
 	public static final int DIALOG_TYPE_OK=988,/**Dialog with Positive button*/
@@ -59,7 +60,11 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 			DATE_DIALOG=214,/**DATE picker dialog*/
 			TIME_DIALOG=686;/**Time picker Dialog*/
 	
-	private static int year, month, date,hour,minute;
+	private static int sYear,/**Current year*/
+					   sMonth,/**Current month*/
+					   sDate,/**Current date*/
+					   sHour,/**Current hour*/
+					   sMinute;/**Current minutes*/
 
 	/**
 	 * New instance of alert dialog.
@@ -97,8 +102,8 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 */
 	public static AlertFragmentDialog newInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type) {
 
-		mContext=ctx;
-		AlertFragmentDialog.dateTimeSetListener=dateTimeSetListener;
+		sContext=ctx;
+		AlertFragmentDialog.sDateTimeSetListener=dateTimeSetListener;
 		Bundle args = new Bundle();
 		args.putInt("type", type);
 		AlertFragmentDialog frag = new AlertFragmentDialog();
@@ -106,16 +111,16 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 		
 		//initialize date
 		Calendar calendar = Calendar.getInstance();
-		year = calendar.get(Calendar.YEAR);
-		month = calendar.get(Calendar.MONTH);
-		date = calendar.get(Calendar.DATE);
+		sYear = calendar.get(Calendar.YEAR);
+		sMonth = calendar.get(Calendar.MONTH);
+		sDate = calendar.get(Calendar.DATE);
 		
 		//initialize Time
 		if(is24Hour)
-			hour = calendar.get(Calendar.HOUR_OF_DAY);
+			sHour = calendar.get(Calendar.HOUR_OF_DAY);
 		else
-			hour = calendar.get(Calendar.HOUR);
-		minute = calendar.get(Calendar.MINUTE);
+			sHour = calendar.get(Calendar.HOUR);
+		sMinute = calendar.get(Calendar.MINUTE);
 		return frag;
 
 	}
@@ -179,10 +184,10 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 							)
 							.create();
 		case DATE_DIALOG:
-			return new DatePickerDialog(mContext, AlertFragmentDialog.this, year, month, date);	
+			return new DatePickerDialog(sContext, AlertFragmentDialog.this, sYear, sMonth, sDate);	
 			
 		case TIME_DIALOG:
-			return new TimePickerDialog(mContext, AlertFragmentDialog.this, hour, minute, true);
+			return new TimePickerDialog(sContext, AlertFragmentDialog.this, sHour, sMinute, true);
 
 		}
 		return null;
@@ -193,7 +198,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 */
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		dateTimeSetListener.onTimeSet(view, hourOfDay, minute);
+		sDateTimeSetListener.onTimeSet(view, hourOfDay, minute);
 	}
 
 	/* (non-Javadoc)
@@ -202,7 +207,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,
 			int dayOfMonth) {
-		dateTimeSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
+		sDateTimeSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
 	}
 
 

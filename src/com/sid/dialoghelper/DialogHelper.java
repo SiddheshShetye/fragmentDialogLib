@@ -21,7 +21,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.sid.dialoginterface.AlertButtonsClickListener;
 import com.sid.dialoginterface.OnDateTimeSetListener;
-import com.sid.dialoginterface.ViewDialogListener;
 import com.sid.fragmentdialog.AlertFragmentDialog;
 import com.sid.fragmentdialog.ViewDialogFragment;
 
@@ -146,8 +145,8 @@ public final class DialogHelper {
 	 * @return the inflated view of dialog
 	 * @author Siddhesh
 	 */
-	public static ViewDialogFragment getViewDialog(FragmentManager fm,Context ctx,Integer view,ViewDialogListener vd){
-		sNewFragment = ViewDialogFragment.newInstance(ctx,view,vd);
+	public static ViewDialogFragment getViewDialog(FragmentManager fm,Context ctx,Integer view){
+		sNewFragment = ViewDialogFragment.newInstance(ctx,view);
 		return sNewFragment;
 	}
 	
