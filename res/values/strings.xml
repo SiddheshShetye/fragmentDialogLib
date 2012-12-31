@@ -6,6 +6,8 @@
     <string name="menu_settings">Settings</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
+    <string name="descrip">descrip</string>
     <!--  -->
     <color name="red_tint">#88FF0000</color>
     <color name="blue_tint">#880000FF</color>

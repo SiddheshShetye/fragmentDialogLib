@@ -35,5 +35,10 @@
     <style name="RedAlertDialogTheme" parent="RedDialogTheme">
         <item name="android:windowBackground">@color/transparent</item>
     </style>
+    
+    <style name="myCoolDialog" parent="android:Theme.Dialog"> 
+        <item name="android:windowBackground">@drawable/dialog_full_holo_dark</item>
+        <item name="android:colorForeground">#f00</item> 
+     </style> 
 
 </resources>

@@ -21,7 +21,9 @@ import android.support.v4.app.FragmentManager;
 
 import com.sid.dialoginterface.AlertButtonsClickListener;
 import com.sid.dialoginterface.OnDateTimeSetListener;
+import com.sid.dialoginterface.OnNumberSetListener;
 import com.sid.fragmentdialog.AlertFragmentDialog;
+import com.sid.fragmentdialog.NumberPickerDialog;
 import com.sid.fragmentdialog.ViewDialogFragment;
 
 /**
@@ -33,6 +35,7 @@ public final class DialogHelper {
 	
 	/** The new fragment. */
 	private static ViewDialogFragment sNewFragment;
+	private static DialogFragment currentNumberPickerDialog;
 
 	/**
 	 * Show dialog. 
@@ -107,7 +110,7 @@ public final class DialogHelper {
 	 * @author Siddhesh
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable) {
-	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,null,null);
+	    DialogFragment newFragment = AlertFragmentDialog.getInstance(title,message,alertFrag,type,null,null);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
 	}
@@ -130,7 +133,7 @@ public final class DialogHelper {
 	 * @author Siddhesh
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText) {
-	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,positiveText,negativeText);
+	    DialogFragment newFragment = AlertFragmentDialog.getInstance(title,message,alertFrag,type,positiveText,negativeText);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
 	}
@@ -159,7 +162,7 @@ public final class DialogHelper {
 	 * @author Siddhesh
 	 */
 	public static void showDateDialog(FragmentManager fm,Context ctx,OnDateTimeSetListener dateListener){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,true,dateListener,AlertFragmentDialog.DATE_DIALOG);
+		DialogFragment newFragment = AlertFragmentDialog.getInstance(ctx,true,dateListener,AlertFragmentDialog.DATE_DIALOG);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -173,8 +176,37 @@ public final class DialogHelper {
 	 * @author Siddhesh
 	 */
 	public static void showTimeDialog(FragmentManager fm,Context ctx,boolean is24Hour,OnDateTimeSetListener dateListener){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG);
+		DialogFragment newFragment = AlertFragmentDialog.getInstance(ctx,is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG);
 		newFragment.show(fm, "dialog");
 	}
+	
+	public static DialogFragment showNumberPickerDialog(FragmentManager fm,int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval){
+		currentNumberPickerDialog = NumberPickerDialog.getInstance(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval);
+		//currentNumberPickerDialog.show(fm, "dialog");
+		return currentNumberPickerDialog;
+	}
+	
+	/*public void setTextColor(int color){
+		if(currentNumberPickerDialog!=null)
+		lblHeaderText.setTextColor(color);
+		lblNextValue.setTextColor(color);
+		lblPrevValue.setTextColor(color);
+		edtSelectedValue.setTextColor(color);
+	}
+	
+	public void setButtonTextColor(int color){
+		btnCancel.setTextColor(color);
+		btnSet.setTextColor(color);
+	}
+	
+	public void setButtonBackground(int resid){
+		btnCancel.setBackgroundResource(resid);
+		btnSet.setBackgroundResource(resid);
+	}
+	
+	public void setArrowImage(int resId){
+		ibtnNext.setImageResource(resId);
+		ibtnPrev.setImageResource(resId);
+	}*/
 	
 }

@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -78,7 +79,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @return the fragment dialog
 	 * @author Siddhesh
 	 */
-	public static AlertFragmentDialog newInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText) {
+	public static AlertFragmentDialog getInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		sAlertFragment=alert;
 		Bundle args = new Bundle();
@@ -100,7 +101,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param type the type of dialog
 	 * @return the alert fragment dialog
 	 */
-	public static AlertFragmentDialog newInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type) {
+	public static AlertFragmentDialog getInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type) {
 
 		sContext=ctx;
 		AlertFragmentDialog.sDateTimeSetListener=dateTimeSetListener;
@@ -135,11 +136,12 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 		int type = getArguments().getInt(TYPE);
 		String positive=getArguments().getString(POSITIVE);
 		if(positive==null){
-			positive=getResources().getString(R.string.ok);
+			positive="OK";//AlertFragmentDialog.this.getResources().getString(com.sid.fragmentdialog.R.string.ok);
+			Log.d("CHECK", ""+com.sid.fragmentdialog.R.string.ok);
 		}
 		String negative=getArguments().getString(NEGATIVE);
 		if(negative==null){
-			negative=getResources().getString(R.string.cancel);
+			negative="Cancel";//AlertFragmentDialog.this.getResources().getString(com.sid.fragmentdialog.R.string.cancel);
 		}
 		switch(type){
 		case DIALOG_TYPE_OK:
@@ -187,6 +189,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 			return new DatePickerDialog(sContext, AlertFragmentDialog.this, sYear, sMonth, sDate);	
 			
 		case TIME_DIALOG:
+			
 			return new TimePickerDialog(sContext, AlertFragmentDialog.this, sHour, sMinute, true);
 
 		}

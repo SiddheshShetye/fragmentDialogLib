@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/headSeparate" 
+            android:layout_width="match_parent"
+		    android:layout_height="1dip"
+		    android:background="#33B5E5"/>
+
+        <TextView
+            android:id="@+id/lblHeaderMessage"
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:text="" 
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dip"/>
+
+        <ImageButton
+            android:id="@+id/ibtnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_find_previous_holo_dark"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:contentDescription="@string/descrip" />
+
+        <TextView
+            android:id="@+id/lblPrevValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="" 
+            android:textSize="20sp"/>
+
+        <View
+            android:id="@+id/seprator1"
+            android:layout_width="40dip"
+            android:layout_height="1dip" 
+            android:layout_gravity="center_horizontal"
+            android:background="#33B5E5"/>
+        <EditText
+            android:id="@+id/edtSelectedValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="" 
+            android:inputType="number"
+            android:maxLines="1"
+            android:textSize="20sp"
+            android:padding="5dip"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
+        <View
+            android:id="@+id/seprator2"
+            android:layout_width="40dip"
+            android:layout_height="1dip" 
+            android:layout_gravity="center_horizontal"
+            android:background="#33B5E5"/>
+        <TextView
+            android:id="@+id/lblNextValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="" 
+            android:textSize="20sp"/>
+        
+         <ImageButton
+            android:id="@+id/ibtnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_find_next_holo_dark"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000" 
+            android:layout_marginBottom="20dip"
+            android:contentDescription="@string/descrip"/>
+         
+         <View
+            android:id="@+id/seprator3"
+            android:layout_width="match_parent"
+            android:layout_height="1dip" 
+            android:layout_gravity="center_horizontal"
+            android:background="#33B5E5"/>
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" 
+             android:orientation="horizontal">
+
+             <Button
+                 android:id="@+id/btnSet"
+                 android:layout_width="0dip"
+                 android:layout_height="50dip"
+                 android:text="@string/set"
+                 android:layout_weight="0.5"
+                  android:textColor="@android:color/white" 
+                   android:background="@drawable/search_selector" />
+              <View
+            android:id="@+id/view2"
+            android:layout_width="1dip"
+            android:layout_height="match_parent" 
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/divider_vertical_dark"/>
+
+             <Button
+                 android:id="@+id/btnCancel"
+                 android:layout_width="0dip"
+                 android:layout_height="50dip"
+                 android:layout_weight="0.5"
+                 android:background="@drawable/search_selector"
+                 android:text="@string/cancel"
+                 android:textColor="@android:color/white" />
+             
+         </LinearLayout>
+
+    </LinearLayout>
