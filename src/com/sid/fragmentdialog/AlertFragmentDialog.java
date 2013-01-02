@@ -16,6 +16,7 @@
 package com.sid.fragmentdialog;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.AlertDialog;
@@ -26,13 +27,16 @@ import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.sid.dialoginterface.AlertButtonsClickListener;
+import com.sid.dialoginterface.ListDialogListener;
 import com.sid.dialoginterface.OnDateTimeSetListener;
 
 /**
@@ -46,11 +50,13 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	private static Context sContext;
 
 	/** The Constant TYPE. */
-	private static final String TITLE="title",MESSAGE="message",POSITIVE="positive",NEGATIVE="negative",TYPE="type";
+	private static final String TITLE="title",MESSAGE="message",POSITIVE="positive",NEGATIVE="negative",TYPE="type",LIST="list";
 
 
 	/** The alert fragment. */
 	private static AlertButtonsClickListener sAlertFragment;
+	
+	private static ListDialogListener sListDialogListener;
 	
 	/** The date time set listener. */
 	private static OnDateTimeSetListener sDateTimeSetListener;
@@ -59,13 +65,20 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	public static final int DIALOG_TYPE_OK=988,/**Dialog with Positive button*/
 			DIALOG_TYPE_YES_NO=888,/**Dialog with Positive & Negative button*/
 			DATE_DIALOG=214,/**DATE picker dialog*/
-			TIME_DIALOG=686;/**Time picker Dialog*/
+			TIME_DIALOG=686,/**Time picker Dialog*/
+			SIMPLE_LIST_DIALOG=687,/**Simple List Dialog*/
+			SINGLE_CHOICE_LIST_DIALOG=682,/**Radio List Dialog*/
+			MULTI_CHOICE_LIST_DIALOG=852;/**Multi Choice List Dialog*/
 	
 	private static int sYear,/**Current year*/
 					   sMonth,/**Current month*/
 					   sDate,/**Current date*/
 					   sHour,/**Current hour*/
 					   sMinute;/**Current minutes*/
+	
+	private static int identifier;
+	
+	String selectedChoice;
 
 	/**
 	 * New instance of alert dialog.
@@ -79,15 +92,38 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @return the fragment dialog
 	 * @author Siddhesh
 	 */
-	public static AlertFragmentDialog getInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText) {
+	public static AlertFragmentDialog newInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText,int identifier) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		sAlertFragment=alert;
+		AlertFragmentDialog.identifier=identifier;
 		Bundle args = new Bundle();
 		args.putInt(TITLE, title);
 		args.putInt(MESSAGE, message);
 		args.putInt(TYPE, type);
 		args.putString(POSITIVE,positiveText);
 		args.putString(NEGATIVE, negativeText);
+		frag.setArguments(args);
+		return frag;
+	}
+	
+	/**
+	 * New instance of alert dialog.
+	 *
+	 * @param title the title
+	 * @param list the list of content
+	 * @param alert the ListDialogListener
+	 * @param type the type
+	 * @param identifier the identifier
+	 * @return the alert fragment dialog
+	 */
+	public static AlertFragmentDialog newInstance(int title,ArrayList<String> list,ListDialogListener alert,int type,int identifier) {
+		AlertFragmentDialog frag = new AlertFragmentDialog();
+		sListDialogListener=alert;
+		Bundle args = new Bundle();
+		args.putInt(TITLE, title);
+		AlertFragmentDialog.identifier=identifier;
+		args.putStringArrayList(LIST, list);
+		args.putInt(TYPE, type);
 		frag.setArguments(args);
 		return frag;
 	}
@@ -101,7 +137,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param type the type of dialog
 	 * @return the alert fragment dialog
 	 */
-	public static AlertFragmentDialog getInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type) {
+	public static AlertFragmentDialog newInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type,int identifier) {
 
 		sContext=ctx;
 		AlertFragmentDialog.sDateTimeSetListener=dateTimeSetListener;
@@ -109,7 +145,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 		args.putInt("type", type);
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		frag.setArguments(args);
-		
+		AlertFragmentDialog.identifier=identifier;
 		//initialize date
 		Calendar calendar = Calendar.getInstance();
 		sYear = calendar.get(Calendar.YEAR);
@@ -131,17 +167,19 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 */
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		int title = getArguments().getInt(TITLE,0);
-		int message = getArguments().getInt(MESSAGE,0);
-		int type = getArguments().getInt(TYPE);
+		Bundle details=getArguments();
+		int title = details.getInt(TITLE,0);
+		int message = details.getInt(MESSAGE,0);
+		int type = details.getInt(TYPE);
+		final ArrayList<String> list= details.getStringArrayList(LIST);
 		String positive=getArguments().getString(POSITIVE);
 		if(positive==null){
-			positive="OK";//AlertFragmentDialog.this.getResources().getString(com.sid.fragmentdialog.R.string.ok);
+			positive="OK";
 			Log.d("CHECK", ""+com.sid.fragmentdialog.R.string.ok);
 		}
 		String negative=getArguments().getString(NEGATIVE);
 		if(negative==null){
-			negative="Cancel";//AlertFragmentDialog.this.getResources().getString(com.sid.fragmentdialog.R.string.cancel);
+			negative="Cancel";
 		}
 		switch(type){
 		case DIALOG_TYPE_OK:
@@ -153,7 +191,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
 					if(sAlertFragment!=null)
-						sAlertFragment.onPositiveButtonClick();
+						sAlertFragment.onPositiveButtonClick(identifier);
 
 				}
 			}
@@ -169,7 +207,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
 					if(sAlertFragment!=null)
-						sAlertFragment.onPositiveButtonClick();
+						sAlertFragment.onPositiveButtonClick(identifier);
 
 				}
 			}
@@ -179,7 +217,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 						public void onClick(DialogInterface dialog, int whichButton) {
 							dialog.dismiss();
 							if(sAlertFragment!=null)
-								sAlertFragment.onNegativeButtonClick();
+								sAlertFragment.onNegativeButtonClick(identifier);
 
 						}
 					}
@@ -189,11 +227,82 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 			return new DatePickerDialog(sContext, AlertFragmentDialog.this, sYear, sMonth, sDate);	
 			
 		case TIME_DIALOG:
-			
 			return new TimePickerDialog(sContext, AlertFragmentDialog.this, sHour, sMinute, true);
+		case SIMPLE_LIST_DIALOG:
+			return getAlertBuilder(title, list, android.R.layout.select_dialog_item).create();
+		case SINGLE_CHOICE_LIST_DIALOG:
+			return getAlertBuilder(title, list, android.R.layout.select_dialog_singlechoice).create();
+		case MULTI_CHOICE_LIST_DIALOG:
+			AlertDialog.Builder multipleChoice = new AlertDialog.Builder(getActivity());
+            multipleChoice.setTitle(title);
+            final ArrayList<String> alSelectedItem = new ArrayList<String>();
+            final String[] items = (String[]) list.toArray(new String[list.size()]);
+            multipleChoice.setMultiChoiceItems(items, null,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+            			@Override
+                        public void onClick(DialogInterface dialog, int which,
+                                boolean isChecked) {
+                            if (isChecked) {
+                                alSelectedItem.add(items[which]);
+                            } else {
+                                alSelectedItem.remove(items[which]);
+                            }
+                        }
+                    });
+            multipleChoice.setNegativeButton(R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            multipleChoice.setPositiveButton(R.string.ok,
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (alSelectedItem.size() != 0) {
+                                sListDialogListener.onMultiChoiceSelected(identifier, alSelectedItem);
+                            }
+                        }
+                    });
+            return multipleChoice.create();
 
 		}
 		return null;
+	}
+	
+	/**
+	 * Gets the alert builder.
+	 *
+	 * @param title the title
+	 * @param list the list
+	 * @param layout the layout
+	 * @return the alert builder
+	 */
+	private AlertDialog.Builder getAlertBuilder(int title,final ArrayList<String> list,int layout){
+		AlertDialog.Builder singleChoiceListDialog = new AlertDialog.Builder(getActivity());
+		singleChoiceListDialog.setTitle(title);
+		final ArrayAdapter<String> arraySingleChoiceAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                layout,list);
+		singleChoiceListDialog.setPositiveButton(R.string.cancel, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dismiss();		
+				
+			}
+		});
+		singleChoiceListDialog.setAdapter(arraySingleChoiceAdapter,new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				selectedChoice=list.get(which);
+				sListDialogListener.onListItemSelected(identifier, selectedChoice);	
+			}
+		});
+		singleChoiceListDialog.setCancelable(false);
+		return singleChoiceListDialog;
 	}
 
 	/* (non-Javadoc)
@@ -201,7 +310,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 */
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		sDateTimeSetListener.onTimeSet(view, hourOfDay, minute);
+		sDateTimeSetListener.onTimeSet(view, hourOfDay, minute,identifier);
 	}
 
 	/* (non-Javadoc)
@@ -210,13 +319,6 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,
 			int dayOfMonth) {
-		sDateTimeSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
+		sDateTimeSetListener.onDateSet(view, year, monthOfYear, dayOfMonth,identifier);
 	}
-
-
-
-
-
-
-
 }

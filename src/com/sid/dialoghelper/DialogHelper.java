@@ -15,6 +15,8 @@
  */
 package com.sid.dialoghelper;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.sid.dialoginterface.AlertButtonsClickListener;
+import com.sid.dialoginterface.ListDialogListener;
 import com.sid.dialoginterface.OnDateTimeSetListener;
 import com.sid.dialoginterface.OnNumberSetListener;
 import com.sid.fragmentdialog.AlertFragmentDialog;
@@ -47,8 +50,8 @@ public final class DialogHelper {
 	 * @param message the message
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message){
-		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null);
+	public static void showDialog(FragmentManager fm,int title,int message,int identifier){
+		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
 	}
 	
 	/**
@@ -62,8 +65,8 @@ public final class DialogHelper {
 	 * @param positiveText the text for positive button 
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,String positiveText){
-		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null);
+	public static void showDialog(FragmentManager fm,int title,int message,String positiveText,int identifier){
+		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
 	}
 	
 	/**
@@ -77,8 +80,8 @@ public final class DialogHelper {
 	 * @param alertFrag the AlertButtonsClickInterface object
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag){
-		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null);
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int identifier){
+		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
 	}
 	
 	/**
@@ -94,8 +97,8 @@ public final class DialogHelper {
 	 * @param positiveText the text for positive button 
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,String positiveText){
-		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null);
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,String positiveText,int identifier){
+		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
 	}
 	
 	/**
@@ -111,8 +114,8 @@ public final class DialogHelper {
 	 * @param cancelable the cancelable
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable) {
-	    DialogFragment newFragment = AlertFragmentDialog.getInstance(title,message,alertFrag,type,null,null);
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,int identifier) {
+	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,null,null,identifier);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
 	}
@@ -134,8 +137,8 @@ public final class DialogHelper {
 	 * @param negativeText the text for negative button
 	 * @author Siddhesh
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText) {
-	    DialogFragment newFragment = AlertFragmentDialog.getInstance(title,message,alertFrag,type,positiveText,negativeText);
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText,int identifier) {
+	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,positiveText,negativeText,identifier);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
 	}
@@ -163,8 +166,8 @@ public final class DialogHelper {
 	 * @param dateListener the OnDateTimeSetListener
 	 * @author Siddhesh
 	 */
-	public static void showDateDialog(FragmentManager fm,Context ctx,OnDateTimeSetListener dateListener){
-		DialogFragment newFragment = AlertFragmentDialog.getInstance(ctx,true,dateListener,AlertFragmentDialog.DATE_DIALOG);
+	public static void showDateDialog(FragmentManager fm,Context ctx,OnDateTimeSetListener dateListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,true,dateListener,AlertFragmentDialog.DATE_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -177,8 +180,8 @@ public final class DialogHelper {
 	 * @param dateListener the OnDateTimeSetListener
 	 * @author Siddhesh
 	 */
-	public static void showTimeDialog(FragmentManager fm,Context ctx,boolean is24Hour,OnDateTimeSetListener dateListener){
-		DialogFragment newFragment = AlertFragmentDialog.getInstance(ctx,is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG);
+	public static void showTimeDialog(FragmentManager fm,Context ctx,boolean is24Hour,OnDateTimeSetListener dateListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -195,10 +198,53 @@ public final class DialogHelper {
 	 * @param interval the interval
 	 * @return the dialog fragment
 	 */
-	public static DialogFragment showNumberPickerDialog(FragmentManager fm,int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval){
-		currentNumberPickerDialog = NumberPickerDialog.getInstance(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval);
+	public static DialogFragment showNumberPickerDialog(FragmentManager fm,int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier){
+		currentNumberPickerDialog = NumberPickerDialog.newInstance(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval,identifier);
 		return currentNumberPickerDialog;
 	}
+	
+	/**
+	 * Show simple list dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param list the list
+	 * @param listDialogListener the list dialog listener
+	 * @param identifier the identifier
+	 */
+	public static void showSimpleListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.SIMPLE_LIST_DIALOG,identifier);
+		newFragment.show(fm, "dialog");
+	}
+	
+	/**
+	 * Show single choice list dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param list the list
+	 * @param listDialogListener the list dialog listener
+	 * @param identifier the identifier
+	 */
+	public static void showSingleChoiceListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.SINGLE_CHOICE_LIST_DIALOG,identifier);
+		newFragment.show(fm, "dialog");
+	}
+	
+	/**
+	 * Show multiple choice list dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param list the list
+	 * @param listDialogListener the list dialog listener
+	 * @param identifier the identifier
+	 */
+	public static void showMultipleChoiceListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.MULTI_CHOICE_LIST_DIALOG,identifier);
+		newFragment.show(fm, "dialog");
+	}
+	
 	
 	/**
 	 * Show toast for <code>Toast.LENGTH_SHORT</code>.
@@ -281,5 +327,7 @@ public final class DialogHelper {
 		newCustomToast.setGravity(gravity, xoffset, yoffset);
 		newCustomToast.show();
 	}
+	
+	
 	
 }

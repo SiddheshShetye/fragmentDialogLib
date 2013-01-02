@@ -11,5 +11,5 @@ public interface OnNumberSetListener {
 	 *
 	 * @param number the number
 	 */
-	public void onNumberSet(int number);
+	public void onNumberSet(int number,int identifier);
 }

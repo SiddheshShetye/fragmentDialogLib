@@ -86,6 +86,8 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 
 	/** The is title bar visible. */
 	private boolean isTitleBarVisible=true;
+	
+	private static int identifier;
 
 	/**
 	 * Gets the single instance of NumberPickerDialog.
@@ -99,12 +101,13 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 	 * @param interval the interval
 	 * @return single instance of NumberPickerDialog
 	 */
-	public static NumberPickerDialog getInstance(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval) {
+	public static NumberPickerDialog newInstance(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier) {
 		NumberPickerDialog frag = new NumberPickerDialog();
 		sLowerRange=lowerRange;
 		sUpperRange=upperRange;
 		sInterval=interval;
 		sNumberListener=numberListener;
+		NumberPickerDialog.identifier=identifier;
 		Bundle args = new Bundle();
 		args.putInt(TITLE, title);
 		args.putString(HEADER, headerText);
@@ -255,7 +258,7 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 					Toast.makeText(getActivity(), "Please select proper number.", Toast.LENGTH_LONG).show();
 				}else{
 					dismiss();
-					sNumberListener.onNumberSet(Integer.parseInt(edtSelectedValue.getText().toString()));
+					sNumberListener.onNumberSet(Integer.parseInt(edtSelectedValue.getText().toString()),identifier);
 				}
 			}else{
 				edtSelectedValue.setText(""+sDefaultValue);

@@ -24,11 +24,11 @@ public interface AlertButtonsClickListener {
 	/**
 	 * On positive button click.
 	 */
-	public void onPositiveButtonClick();
+	public void onPositiveButtonClick(int identifier);
 	
 	/**
 	 * On negative button click.
 	 */
-	public void onNegativeButtonClick();
+	public void onNegativeButtonClick(int identifier);
 
 }
