@@ -18,6 +18,8 @@ package com.sid.dialoghelper;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.widget.Toast;
 
 import com.sid.dialoginterface.AlertButtonsClickListener;
 import com.sid.dialoginterface.OnDateTimeSetListener;
@@ -180,33 +182,104 @@ public final class DialogHelper {
 		newFragment.show(fm, "dialog");
 	}
 	
+	/**
+	 * Show number picker dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title for dialog
+	 * @param headerText the header text it can also be kept null if not needed
+	 * @param numberListener the number listener
+	 * @param lowerRange the lower range
+	 * @param upperRange the upper range
+	 * @param defaultRange the default value
+	 * @param interval the interval
+	 * @return the dialog fragment
+	 */
 	public static DialogFragment showNumberPickerDialog(FragmentManager fm,int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval){
 		currentNumberPickerDialog = NumberPickerDialog.getInstance(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval);
-		//currentNumberPickerDialog.show(fm, "dialog");
 		return currentNumberPickerDialog;
 	}
 	
-	/*public void setTextColor(int color){
-		if(currentNumberPickerDialog!=null)
-		lblHeaderText.setTextColor(color);
-		lblNextValue.setTextColor(color);
-		lblPrevValue.setTextColor(color);
-		edtSelectedValue.setTextColor(color);
+	/**
+	 * Show toast for <code>Toast.LENGTH_SHORT</code>.
+	 *
+	 * @param ctx the context
+	 * @param msg the message to show
+	 */
+	public static void showShortToast(Context ctx,String msg){
+		Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
 	}
 	
-	public void setButtonTextColor(int color){
-		btnCancel.setTextColor(color);
-		btnSet.setTextColor(color);
+	/**
+	 * Show toast for <code>Toast.LENGTH_LONG</code>.
+	 *
+	 * @param ctx the context
+	 * @param msg the message to show
+	 */
+	public static void showLongToast(Context ctx,String msg){
+		Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
 	}
 	
-	public void setButtonBackground(int resid){
-		btnCancel.setBackgroundResource(resid);
-		btnSet.setBackgroundResource(resid);
+	/**
+	 * Show custom toast.
+	 *
+	 * @param context the context
+	 * @param view the view
+	 */
+	public static void showCustomToast(Context context,View view){
+		Toast newCustomToast=new Toast(context);
+		newCustomToast.setView(view);
+		newCustomToast.setDuration(Toast.LENGTH_LONG);
+		newCustomToast.show();
 	}
 	
-	public void setArrowImage(int resId){
-		ibtnNext.setImageResource(resId);
-		ibtnPrev.setImageResource(resId);
-	}*/
+	/**
+	 * Show custom toast.
+	 *
+	 * @param context the context
+	 * @param view the view
+	 * @param Duration the duration e.g <code>Toast.LENGTH_SHORT</code> , <code>Toast.LENGTH_LONG</code>
+	 */
+	public static void showCustomToast(Context context,View view,int Duration){
+		Toast newCustomToast=new Toast(context);
+		newCustomToast.setView(view);
+		newCustomToast.setDuration(Duration);
+		newCustomToast.show();
+	}
+	
+	/**
+	 * Show custom toast.
+	 *
+	 * @param context the context
+	 * @param view the view
+	 * @param gravity the gravity e.g <code>GRAVITY.BOTTOM</code> , <code>GRAVITY.CENTER_VERTICAL</code> , etc
+	 * @param xoffset the x offset
+	 * @param yoffset the y offset
+	 */
+	public static void showCustomToast(Context context,View view,int gravity,int xoffset,int yoffset){
+		Toast newCustomToast=new Toast(context);
+		newCustomToast.setView(view);
+		newCustomToast.setDuration(Toast.LENGTH_LONG);
+		newCustomToast.setGravity(gravity, xoffset, yoffset);
+		newCustomToast.show();
+	}
+	
+	/**
+	 * Show custom toast.
+	 *
+	 * @param context the context
+	 * @param view the view
+	 * @param Duration the duration e.g <code>Toast.LENGTH_SHORT</code> , <code>Toast.LENGTH_LONG</code>
+	 * @param gravity the gravity e.g <code>GRAVITY.BOTTOM</code> , <code>GRAVITY.CENTER_VERTICAL</code> , etc
+	 * @param xoffset the x offset
+	 * @param yoffset the y offset
+	 */
+	public static void showCustomToast(Context context,View view,int Duration,int gravity,int xoffset,int yoffset){
+		Toast newCustomToast=new Toast(context);
+		newCustomToast.setView(view);
+		newCustomToast.setDuration(Duration);
+		newCustomToast.setGravity(gravity, xoffset, yoffset);
+		newCustomToast.show();
+	}
 	
 }
