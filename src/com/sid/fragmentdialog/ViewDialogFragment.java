@@ -15,7 +15,6 @@
  */
 package com.sid.fragmentdialog;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -32,9 +31,6 @@ import com.sid.dialoginterface.ViewDialogListener;
  */
 public class ViewDialogFragment extends DialogFragment{
 
-	/** The m context. */
-	//private static Context mContext;
-	
 	/** The ViewDialogInterface object */
 	private static ViewDialogListener interfaceDialog;
 	
@@ -64,8 +60,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param cancelable the cancelable
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Context ctx,Integer view,int style,Integer theme,boolean cancelable,ViewDialogListener viewDialogListener,int identifier) {
-		//mContext=ctx;
+	public static ViewDialogFragment newInstance(Integer view,int style,Integer theme,boolean cancelable,ViewDialogListener viewDialogListener,int identifier) {
 		interfaceDialog=viewDialogListener;
 		Bundle args = new Bundle();
 		args.putInt(VIEW, view);
@@ -88,7 +83,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param viewDialogInterface the view dialog interface
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Context ctx,Integer view,ViewDialogListener viewDialogListener,int identifier) {
+	public static ViewDialogFragment newInstance(Integer view,ViewDialogListener viewDialogListener,int identifier) {
 		interfaceDialog=viewDialogListener;
 		Bundle args = new Bundle();
 		args.putInt(VIEW, view);
@@ -141,12 +136,4 @@ public class ViewDialogFragment extends DialogFragment{
 	}
 	
 	
-	/**
-	 * Gets the dialog view.
-	 *
-	 * @return the dialog view
-	 */
-	/*public View getDialogView(){
-		return mView;
-	}*/
 }

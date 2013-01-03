@@ -154,8 +154,8 @@ public final class DialogHelper {
 	 * @return the inflated view of dialog
 	 * @author Siddhesh
 	 */
-	public static ViewDialogFragment getViewDialog(FragmentManager fm,Context ctx,Integer view,ViewDialogListener viewDialogListener,int identifier){
-		sNewFragment = ViewDialogFragment.newInstance(ctx,view,viewDialogListener,identifier);
+	public static ViewDialogFragment getViewDialog(Integer view,ViewDialogListener viewDialogListener,int identifier){
+		sNewFragment = ViewDialogFragment.newInstance(view,viewDialogListener,identifier);
 		return sNewFragment;
 	}
 	
@@ -167,8 +167,8 @@ public final class DialogHelper {
 	 * @param dateListener the OnDateTimeSetListener
 	 * @author Siddhesh
 	 */
-	public static void showDateDialog(FragmentManager fm,Context ctx,OnDateTimeSetListener dateListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,true,dateListener,AlertFragmentDialog.DATE_DIALOG,identifier);
+	public static void showDateDialog(FragmentManager fm,OnDateTimeSetListener dateListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(true,dateListener,AlertFragmentDialog.DATE_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -181,8 +181,8 @@ public final class DialogHelper {
 	 * @param dateListener the OnDateTimeSetListener
 	 * @author Siddhesh
 	 */
-	public static void showTimeDialog(FragmentManager fm,Context ctx,boolean is24Hour,OnDateTimeSetListener dateListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(ctx,is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG,identifier);
+	public static void showTimeDialog(FragmentManager fm,boolean is24Hour,OnDateTimeSetListener dateListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -199,7 +199,7 @@ public final class DialogHelper {
 	 * @param interval the interval
 	 * @return the dialog fragment
 	 */
-	public static DialogFragment showNumberPickerDialog(FragmentManager fm,int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier){
+	public static DialogFragment showNumberPickerDialog(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier){
 		currentNumberPickerDialog = NumberPickerDialog.newInstance(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval,identifier);
 		return currentNumberPickerDialog;
 	}

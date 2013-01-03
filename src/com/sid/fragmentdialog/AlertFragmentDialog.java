@@ -46,9 +46,6 @@ import com.sid.dialoginterface.OnDateTimeSetListener;
  */
 public final class AlertFragmentDialog extends DialogFragment implements OnDateSetListener,OnTimeSetListener{
 
-	/** The m context. */
-	private static Context sContext;
-
 	/** The Constant TYPE. */
 	private static final String TITLE="title",MESSAGE="message",POSITIVE="positive",NEGATIVE="negative",TYPE="type",LIST="list";
 
@@ -137,9 +134,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param type the type of dialog
 	 * @return the alert fragment dialog
 	 */
-	public static AlertFragmentDialog newInstance(Context ctx,boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type,int identifier) {
-
-		sContext=ctx;
+	public static AlertFragmentDialog newInstance(boolean is24Hour,OnDateTimeSetListener dateTimeSetListener,int type,int identifier) {
 		AlertFragmentDialog.sDateTimeSetListener=dateTimeSetListener;
 		Bundle args = new Bundle();
 		args.putInt("type", type);
@@ -224,10 +219,10 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 							)
 							.create();
 		case DATE_DIALOG:
-			return new DatePickerDialog(sContext, AlertFragmentDialog.this, sYear, sMonth, sDate);	
+			return new DatePickerDialog(getActivity(), AlertFragmentDialog.this, sYear, sMonth, sDate);	
 			
 		case TIME_DIALOG:
-			return new TimePickerDialog(sContext, AlertFragmentDialog.this, sHour, sMinute, true);
+			return new TimePickerDialog(getActivity(), AlertFragmentDialog.this, sHour, sMinute, true);
 		case SIMPLE_LIST_DIALOG:
 			return getAlertBuilder(title, list, android.R.layout.select_dialog_item).create();
 		case SINGLE_CHOICE_LIST_DIALOG:
