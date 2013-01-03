@@ -27,6 +27,7 @@ import com.sid.dialoginterface.AlertButtonsClickListener;
 import com.sid.dialoginterface.ListDialogListener;
 import com.sid.dialoginterface.OnDateTimeSetListener;
 import com.sid.dialoginterface.OnNumberSetListener;
+import com.sid.dialoginterface.ViewDialogListener;
 import com.sid.fragmentdialog.AlertFragmentDialog;
 import com.sid.fragmentdialog.NumberPickerDialog;
 import com.sid.fragmentdialog.ViewDialogFragment;
@@ -153,8 +154,8 @@ public final class DialogHelper {
 	 * @return the inflated view of dialog
 	 * @author Siddhesh
 	 */
-	public static ViewDialogFragment getViewDialog(FragmentManager fm,Context ctx,Integer view){
-		sNewFragment = ViewDialogFragment.newInstance(ctx,view);
+	public static ViewDialogFragment getViewDialog(FragmentManager fm,Context ctx,Integer view,ViewDialogListener viewDialogListener,int identifier){
+		sNewFragment = ViewDialogFragment.newInstance(ctx,view,viewDialogListener,identifier);
 		return sNewFragment;
 	}
 	
