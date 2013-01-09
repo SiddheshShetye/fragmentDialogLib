@@ -86,7 +86,7 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 
 	/** The is title bar visible. */
 	private boolean isTitleBarVisible=true;
-	
+
 	private static int identifier;
 
 	/**
@@ -184,6 +184,13 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 			}else{
 				lblNextValue.setText(""+(defaultValue+sInterval));
 			}
+			
+			if(defaultValue==sLowerRange){
+				ibtnPrev.setEnabled(false);
+			}
+			if(defaultValue==sUpperRange){
+				ibtnNext.setEnabled(false);
+			}
 		}
 		if(mBackground!=0){
 			getDialog().getWindow().setBackgroundDrawableResource(mBackground);
@@ -242,6 +249,7 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 			public void afterTextChanged(Editable s) {
 			}
 		});
+		
 		return v;
 	}
 
