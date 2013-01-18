@@ -17,6 +17,7 @@ package com.sid.fragmentdialog;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,22 +33,23 @@ import com.sid.dialoginterface.ViewDialogListener;
 public class ViewDialogFragment extends DialogFragment{
 
 	/** The ViewDialogInterface object */
-	private static ViewDialogListener interfaceDialog;
+	private ViewDialogListener interfaceDialog;
 	
 	/** The title bar flag. */
-	private boolean isTitleBarVisible;
+	//private boolean isTitleBarVisible;
 	
 	/** The title bar text. */
-	private String mTitle;
+	//private String mTitle;
 	
 	/** The anim for dialog. */
-	private Integer mAnim;
+	//private Integer mAnim;
 	
-	private View mView;
+	//private View mView;
 	
 	private int identifier;
 	
-	private static final String VIEW="view",THEME="theme",STYLE="style",IDENTIFIER="identifier"; 
+	private static final String VIEW="view",THEME="theme",STYLE="style",IDENTIFIER="identifier",
+			CANCELABLE="cancelable",TITLE_BAR_VISIBLE="title_bar_visible",TITLE="title",ANIMATION="animation"; 
 	
 	/**
 	 * New instance.
@@ -60,7 +62,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param cancelable the cancelable
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Integer view,int style,Integer theme,boolean cancelable,ViewDialogListener viewDialogListener,int identifier) {
+	/*public static ViewDialogFragment newInstance(Integer view,int style,Integer theme,boolean cancelable,ViewDialogListener viewDialogListener,int identifier) {
 		interfaceDialog=viewDialogListener;
 		Bundle args = new Bundle();
 		args.putInt(VIEW, view);
@@ -72,7 +74,7 @@ public class ViewDialogFragment extends DialogFragment{
 
 		return frag;
 
-	}
+	}*/
 
 
 	/**
@@ -83,11 +85,17 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param viewDialogInterface the view dialog interface
 	 * @return the view dialog fragment
 	 */
-	public static ViewDialogFragment newInstance(Integer view,ViewDialogListener viewDialogListener,int identifier) {
-		interfaceDialog=viewDialogListener;
+	public static ViewDialogFragment newInstance(final Builder builder){//Integer view,ViewDialogListener viewDialogListener,int identifier) {
+		//interfaceDialog=viewDialogListener;
 		Bundle args = new Bundle();
-		args.putInt(VIEW, view);
-		args.putInt(IDENTIFIER, identifier);
+		args.putInt(VIEW, builder.view);
+		args.putInt(IDENTIFIER, builder.identifier);
+		args.putBoolean(CANCELABLE, builder.isCancelable);
+		args.putInt(STYLE, builder.style);
+		args.putInt(THEME, builder.theme);
+		args.putBoolean(TITLE_BAR_VISIBLE, builder.isTitleBarVisible);
+		args.putString(TITLE, builder.mTitle);
+		args.putInt(ANIMATION, builder.mAnim);
 		ViewDialogFragment frag = new ViewDialogFragment();
 		frag.setArguments(args);
 
@@ -101,17 +109,22 @@ public class ViewDialogFragment extends DialogFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		if(!isTitleBarVisible)
-				getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-		else if(mTitle!=null)
-				getDialog().setTitle(mTitle);	
-		if(mAnim!=null)
-				getDialog().getWindow().getAttributes().windowAnimations=mAnim;
 		Bundle bundle=getArguments();
+		if(!bundle.getBoolean(TITLE_BAR_VISIBLE,true))
+				getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+		else if(bundle.getString(TITLE) != null)
+				getDialog().setTitle(bundle.getString(TITLE));	
+		if(bundle.getInt(ANIMATION) != 0)
+				getDialog().getWindow().getAttributes().windowAnimations = bundle.getInt(ANIMATION);
+		if(bundle.getInt(STYLE) != 0 && bundle.getInt(THEME) != 0)
+			setStyle(bundle.getInt(STYLE), bundle.getInt(THEME));
+		
+		setCancelable(bundle.getBoolean(CANCELABLE));
+		
 		int v=bundle.getInt(VIEW);
 		View view=inflater.inflate(v, null);
-		mView=view;
-		interfaceDialog.getView(identifier, mView);
+		//mView=view;
+		interfaceDialog.getView(identifier, view);
 		return view;
 	}
 
@@ -121,19 +134,67 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @param isTitleBarVisible the is title bar visible
 	 * @param title the title
 	 */
-	public void setDialogTitle(boolean isTitleBarVisible,String title){
+	/*public void setDialogTitle(boolean isTitleBarVisible,String title){
 		this.isTitleBarVisible=isTitleBarVisible;
 		mTitle=title;
-	}
+	}*/
 	
 	/**
 	 * Sets the dialog animation.
 	 *
 	 * @param animation the new dialog animation
 	 */
-	public void setDialogAnimation(Integer animation){
+	/*public void setDialogAnimation(Integer animation){
 		mAnim=animation;
-	}
+	}*/
 	
+	
+	
+	public ViewDialogFragment setInterfaceDialog(ViewDialogListener interfaceDialog) {
+		this.interfaceDialog = interfaceDialog;
+		return this;
+	}
+
+
+
+	public static class Builder{
+		Integer view,mAnim=0;
+		int theme = 0,style = 0;
+		ViewDialogListener viewDialogListener;
+		int identifier;
+		boolean isTitleBarVisible=true,isCancelable=true;
+		String mTitle;
+		public Builder(Integer view,ViewDialogListener viewDialogListener,int identifier) {
+			this.view=view;
+			this.viewDialogListener=viewDialogListener;
+			this.identifier=identifier;
+		}
+		
+		public void setDialogTitleBar(boolean isTitleBarVisible){//,){
+			this.isTitleBarVisible=isTitleBarVisible;
+			
+		}
+		
+		public void setDialogTitle(String title){//,String title){
+			mTitle=title;
+		}
+		
+		public void setIsCancelable(boolean cancelable){//,String title){
+			isCancelable=cancelable;
+		}
+		
+		public void setStyle(int style,int theme){
+			this.style=style;
+			this.theme=theme;
+		}
+		
+		public void setDialogAnimation(Integer animation){
+			mAnim=animation;
+		}
+		
+		public void build(FragmentManager fm,String tag){
+			newInstance(this).setInterfaceDialog(viewDialogListener).show(fm, tag);
+		}
+	}
 	
 }

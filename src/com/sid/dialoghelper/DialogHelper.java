@@ -41,7 +41,7 @@ public final class DialogHelper {
 	
 	/** The new fragment. */
 	private static ViewDialogFragment sNewFragment;
-	private static DialogFragment currentNumberPickerDialog;
+	//private static DialogFragment currentNumberPickerDialog;
 
 	/**
 	 * Show dialog. 
@@ -154,8 +154,8 @@ public final class DialogHelper {
 	 * @return the inflated view of dialog
 	 * @author Siddhesh
 	 */
-	public static ViewDialogFragment getViewDialog(Integer view,ViewDialogListener viewDialogListener,int identifier){
-		sNewFragment = ViewDialogFragment.newInstance(view,viewDialogListener,identifier);
+	public static ViewDialogFragment.Builder getViewDialog(Integer view,ViewDialogListener viewDialogListener,int identifier){
+		ViewDialogFragment.Builder sNewFragment = new ViewDialogFragment.Builder(view,viewDialogListener,identifier);
 		return sNewFragment;
 	}
 	
@@ -199,9 +199,9 @@ public final class DialogHelper {
 	 * @param interval the interval
 	 * @return the dialog fragment
 	 */
-	public static DialogFragment showNumberPickerDialog(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier){
-		currentNumberPickerDialog = NumberPickerDialog.newInstance(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval,identifier);
-		return currentNumberPickerDialog;
+	public static NumberPickerDialog.Builder getNumberPickerDialogBuilder(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier){
+		NumberPickerDialog.Builder numberPickerDialogBuilder =new NumberPickerDialog.Builder(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval,identifier);
+		return numberPickerDialogBuilder;
 	}
 	
 	/**
