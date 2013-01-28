@@ -19,7 +19,15 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 /**
- * @author Siddhesh
+ * The listener interface for receiving onDateTimeSet events.
+ * The class that is interested in processing a onDateTimeSet
+ * event implements this interface. When
+ * the onDateTimeSet event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @author Siddhesh S Shetye
+ * @version 2013.2801
+ * @since 1.0
  */
 public interface OnDateTimeSetListener {
 	

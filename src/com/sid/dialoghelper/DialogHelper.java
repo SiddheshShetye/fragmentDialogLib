@@ -35,85 +35,91 @@ import com.sid.fragmentdialog.ViewDialogFragment;
 /**
  * The Class DialogHelper.
  * This class acts as a helper to to show specified dialog
- * @author Siddhesh
+ * @author Siddhesh S Shetye
+ * @version 2013.2801
+ * @since 1.0
  */
 public final class DialogHelper {
 	
-	/** The new fragment. */
-	private static ViewDialogFragment sNewFragment;
-	//private static DialogFragment currentNumberPickerDialog;
-
+	/** The Constant CANCELABLE and NOT_CANCELABLE. */
+	public static final boolean CANCELABLE=true,NOT_CANCELABLE=false;
+	
+	private static final int DATE_DIALOG=214,/**DATE picker dialog*/
+			 TIME_DIALOG=686;/**Time picker Dialog*/
+	
 	/**
-	 * Show dialog. 
+	 * Show dialog.
 	 * Shows a dialog with given title and message with OK button and cancelable true.
 	 * @param fm the fragment manager
 	 * @param title the title
 	 * @param message the message
-	 * @author Siddhesh
+	 * @param identifier the identifier
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,int identifier){
-		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
+		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, CANCELABLE,null,null,identifier);
 	}
+	
 	
 	/**
 	 * Show dialog.
-	 * Shows a dialog with given title and message with OK button,cancelable true and specified positive
+	 * Shows a dialog with given title,message with OK button,cancelable true and specified positive
 	 * button text.
-	 *
 	 * @param fm the fragment manager
 	 * @param title the title
 	 * @param message the message
-	 * @param positiveText the text for positive button 
-	 * @author Siddhesh
+	 * @param positiveText the positive text
+	 * @param identifier the identifier
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,String positiveText,int identifier){
 		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
 	}
 	
+	
 	/**
-	 * Show dialog. 
+	 * Show dialog.
 	 * Shows a dialog with given title and message with OK button, 
-	 * cancelable true and AlertButtonsClickInterface object for invoking 
+	 * cancelable true and <code>AlertButtonsClickInterface</code> object for invoking 
 	 * code on alert button clicks .
 	 * @param fm the fragment manager
 	 * @param title the title
 	 * @param message the message
-	 * @param alertFrag the AlertButtonsClickInterface object
-	 * @author Siddhesh
+	 * @param alertFrag the alert AlertButtonsClickInterface
+	 * @param identifier the identifier
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int identifier){
 		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
 	}
 	
+	
 	/**
 	 * Show dialog.
 	 * Shows a dialog with given title and message with positive button with specified text,
-	 * cancelable true and AlertButtonsClickInterface object for invoking
+	 * cancelable true and <code>AlertButtonsClickInterface</code> object for invoking
 	 * code on alert button clicks .
-	 *
 	 * @param fm the fragment manager
 	 * @param title the title
 	 * @param message the message
-	 * @param alertFrag the AlertButtonsClickInterface object
-	 * @param positiveText the text for positive button 
-	 * @author Siddhesh
+	 * @param alertFrag the alert <code>AlertButtonsClickInterface</code>
+	 * @param positiveText the positive text
+	 * @param identifier the identifier
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,String positiveText,int identifier){
 		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
 	}
 	
+	
 	/**
-	 * Show dialog. 
+	 * Show dialog.
 	 * Shows a dialog with given title and message with OK button, 
-	 * Cancelable true, AlertButtonsClickInterface object for invoking 
+	 * Cancelable true, <code>AlertButtonsClickInterface</code> object for invoking 
 	 * code on alert button clicks, type OK or OK_Cancel and isCancelable.
 	 * @param fm the fragment manager
 	 * @param title the title
 	 * @param message the message
-	 * @param alertFrag the AlertButtonsClickInterface object
+	 * @param alertFrag the alert AlertButtonsClickInterface
 	 * @param type the type
-	 * @param cancelable the cancelable
-	 * @author Siddhesh
+	 * @param cancelable the cancelable use <code>DialogHelper.CANCELABLE</code> or <code>DialogHelper.NOT_CANCELABLE</code>
+	 * @param identifier the identifier
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,int identifier) {
 	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,null,null,identifier);
@@ -121,22 +127,22 @@ public final class DialogHelper {
 	    newFragment.show(fm, "dialog");
 	}
 	
+	
 	/**
 	 * Show dialog.
 	 * Shows a dialog with given title and message with positive button with specified 
 	 * text & negative button with specified text,
 	 * cancelable true, AlertButtonsClickInterface object for invoking
-	 * code on alert button clicks, type OK or OK_Cancel and isCancelable.
-	 *
+	 * code on alert button clicks, type <code>AlertFragmentDialog.DIALOG_TYPE_OK</code> or <code>AlertFragmentDialog.DIALOG_TYPE_YES_NO</code> and isCancelable.
 	 * @param fm the fragment manager
 	 * @param title the title
 	 * @param message the message
-	 * @param alertFrag the AlertButtonsClickInterface object
-	 * @param type the type e.g AlertFragmentDialog
-	 * @param cancelable the cancelable
-	 * @param positiveText the text for positive button
-	 * @param negativeText the text for negative button
-	 * @author Siddhesh
+	 * @param alertFrag the alert AlertButtonsClickInterface
+	 * @param type the type
+	 * @param cancelable the cancelable use <code>DialogHelper.CANCELABLE</code> or <code>DialogHelper.NOT_CANCELABLE</code>
+	 * @param positiveText the positive text
+	 * @param negativeText the negative text
+	 * @param identifier the identifier
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText,int identifier) {
 	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,positiveText,negativeText,identifier);
@@ -144,65 +150,66 @@ public final class DialogHelper {
 	    newFragment.show(fm, "dialog");
 	}
 	
-	/**
-	 * Gets the view dialog.
-	 * this function is used to get the object of AlertFragmentDialog for custome view.
-	 * @param fm the fragment manager
-	 * @param ctx the context
-	 * @param view the view for dialog
-	 * @param vd the ViewDialogInterface
-	 * @return the inflated view of dialog
-	 * @author Siddhesh
-	 */
-	public static ViewDialogFragment.Builder getViewDialog(Integer view,ViewDialogListener viewDialogListener,int identifier){
-		ViewDialogFragment.Builder sNewFragment = new ViewDialogFragment.Builder(view,viewDialogListener,identifier);
-		return sNewFragment;
-	}
 	
 	/**
-	 * Shows the date picker dialog.
-	 * this function is used to show the date picker dialog.
+	 * Gets the view dialog builder.
+	 * This function is used to get the object of <code>AlertFragmentDialog.Builder</code> for custom view.
+	 * @param view the view
+	 * @param viewDialogListener the view dialog listener
+	 * @param identifier the identifier
+	 * @return the view dialog builder
+	 */
+	public static ViewDialogFragment.Builder getViewDialogBuilder(Integer view,ViewDialogListener viewDialogListener,int identifier){
+		ViewDialogFragment.Builder viewDialogFragmentBuilder = new ViewDialogFragment.Builder(view,viewDialogListener,identifier);
+		return viewDialogFragmentBuilder;
+	}
+	
+	
+	/**
+	 * Show date dialog.
+	 * This function is used to show the date picker dialog.
 	 * @param fm the fragment manager
-	 * @param ctx the context
-	 * @param dateListener the OnDateTimeSetListener
-	 * @author Siddhesh
+	 * @param dateListener the date listener
+	 * @param identifier the identifier
 	 */
 	public static void showDateDialog(FragmentManager fm,OnDateTimeSetListener dateListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(true,dateListener,AlertFragmentDialog.DATE_DIALOG,identifier);
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(true,dateListener,DATE_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
+	
 	/**
-	 * Shows the time picker dialog.
-	 * this function is used to show the time picker dialog.
+	 * Show time dialog.
+	 * This function is used to show the time picker dialog.
 	 * @param fm the fragment manager
-	 * @param ctx the context
-	 * @param is24Hour the time should be consider 24 hour or not
-	 * @param dateListener the OnDateTimeSetListener
-	 * @author Siddhesh
+	 * @param is24Hour the is24 hour
+	 * @param dateListener the date listener
+	 * @param identifier the identifier
 	 */
 	public static void showTimeDialog(FragmentManager fm,boolean is24Hour,OnDateTimeSetListener dateListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(is24Hour,dateListener,AlertFragmentDialog.TIME_DIALOG,identifier);
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(is24Hour,dateListener,TIME_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
+	
 	/**
-	 * Show number picker dialog.
+	 * Gets the number picker dialog builder.
 	 *
-	 * @param fm the fragment manager
-	 * @param title the title for dialog
-	 * @param headerText the header text it can also be kept null if not needed
+	 * @param title the title
+	 * @param headerText the header text
 	 * @param numberListener the number listener
 	 * @param lowerRange the lower range
 	 * @param upperRange the upper range
-	 * @param defaultRange the default value
+	 * @param defaultRange the default range
 	 * @param interval the interval
-	 * @return the dialog fragment
+	 * @param identifier the identifier
+	 * @return the number picker dialog builder
 	 */
 	public static NumberPickerDialog.Builder getNumberPickerDialogBuilder(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier){
 		NumberPickerDialog.Builder numberPickerDialogBuilder =new NumberPickerDialog.Builder(title,headerText,numberListener,lowerRange,upperRange,defaultRange,interval,identifier);
 		return numberPickerDialogBuilder;
 	}
+	
 	
 	/**
 	 * Show simple list dialog.
@@ -217,6 +224,7 @@ public final class DialogHelper {
 		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.SIMPLE_LIST_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
+	
 	
 	/**
 	 * Show single choice list dialog.

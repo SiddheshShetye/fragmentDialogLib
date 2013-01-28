@@ -17,7 +17,9 @@ package com.sid.dialoginterface;
 
 /**
  * The Interface AlertButtonsClickInterface. 
- * @author Siddhesh
+ * @author Siddhesh S Shetye
+ * @version 2013.2801
+ * @since 1.0
  */
 public interface AlertButtonsClickListener {
 	

@@ -36,12 +36,14 @@ import com.sid.dialoginterface.OnNumberSetListener;
 /**
  * The Class NumberPickerDialog.
  * This class is used to show NumberPickerDialog
- * @author Siddhesh
+ * @author Siddhesh S Shetye
+ * @version 2013.2801
+ * @since 1.0
  */
 public class NumberPickerDialog extends DialogFragment implements OnClickListener{
 
 
-	public int mUpperRange,/**Upper range for NumberPicker*/
+	private int mUpperRange,/**Upper range for NumberPicker*/
 	mLowerRange,/**Lower range for NumberPicker*/
 	mInterval,/**Interval between two numbers in NumberPicker*/
 	mDefaultValue;/**Default value for NumberPicker*/
@@ -82,12 +84,13 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 			mButtonArrowUp=0,/**Image for up arrow*/
 			mButtonArrowDown=0,/**Image for down arrow*/
 			mBackground=0;/**Background for dialog*/
-
+	/** The Prev Value. */
 	private String mPrevValue; 
 
 	/** The is title bar visible. */
 	private static boolean isTitleBarVisible=true;
 
+	/** The identifier. */
 	private static int identifier;
 
 	/**
@@ -104,17 +107,6 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 	 */
 	private static NumberPickerDialog newInstance(final Builder builder){//int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier) {
 		NumberPickerDialog frag = new NumberPickerDialog();
-		/*mLowerRange=builder.lowerRange;
-		mUpperRange=builder.upperRange;
-		mInterval=builder.interval;
-		mNumberListener=builder.numberListener;*/
-		/*mTextColor = builder.textColor;
-		mButtonTextColor = builder.buttonTextColor;
-		mButtonBackground = builder.buttonBackgroundSelector;
-		mButtonArrowUp = builder.arrowUpImage;
-		mButtonArrowDown = builder.arrowDownImage;
-		mBackground = builder.background;
-		isTitleBarVisible = builder.isTitleBarVisible;*/
 		NumberPickerDialog.identifier=builder.identifier;
 		Bundle args = new Bundle();
 		args.putInt(TITLE, builder.title);
@@ -126,9 +118,6 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 		frag.setArguments(args);
 		return frag;
 	}
-	
-	private NumberPickerDialog() {}
-
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -233,7 +222,6 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 					if(newValue<mLowerRange || newValue>mUpperRange){
 						edtSelectedValue.setText(""+mPrevValue);
 					}else if(newValue%mInterval!=0){
-						//edtSelectedValue.setText(""+mPrevValue);
 					}else{
 						if(newValue!=mLowerRange)
 							lblPrevValue.setText(""+(newValue-mInterval));
@@ -408,52 +396,93 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 	}
 
 	/**
-	 * Sets the backgrond.
+	 * Sets the background.
 	 *
-	 * @param resid the new backgrond
+	 * @param resid the new background
 	 */
-	private NumberPickerDialog setBackgrond(int resid){
+	private NumberPickerDialog setBackground(int resid){
 		mBackground=resid;
 		return this;
 	}
 	
 	
+	/**
+	 * Setm upper range.
+	 *
+	 * @param mUpperRange the m upper range
+	 * @return the number picker dialog
+	 */
 	public NumberPickerDialog setmUpperRange(int mUpperRange) {
 		this.mUpperRange = mUpperRange;
 		return this;
 	}
 
+	/**
+	 * Setm lower range.
+	 *
+	 * @param mLowerRange the m lower range
+	 * @return the number picker dialog
+	 */
 	public NumberPickerDialog setmLowerRange(int mLowerRange) {
 		this.mLowerRange = mLowerRange;
 		return this;
 	}
 
+	/**
+	 * Setm interval.
+	 *
+	 * @param mInterval the m interval
+	 * @return the number picker dialog
+	 */
 	public NumberPickerDialog setmInterval(int mInterval) {
 		this.mInterval = mInterval;
 		return this;
 	}
 
+	/**
+	 * Setm number listener.
+	 *
+	 * @param mNumberListener the m number listener
+	 * @return the number picker dialog
+	 */
 	public NumberPickerDialog setmNumberListener(OnNumberSetListener mNumberListener) {
 		this.mNumberListener = mNumberListener;
 		return this;
 	}
 
 	/**
-	 * Sets the dialog style.
-	 *
-	 * @param style the style
-	 * @param theme the theme
+	 * The Class Builder.
+	 * This class builds an NumberPickerDialog according to user's need
+	 * @author Siddhesh S Shetye
+	 * @version 2013.2801
+	 * @since 1.0
 	 */
-	public void setDialogStyle(int style,int theme){
-
-	}
-	
 	public static class Builder{
+		
+		/** The header text. */
 		private String headerText;
+		
+		/** The number listener. */
 		private OnNumberSetListener numberListener;
+		
+		/** The is title bar visible. */
 		private boolean isTitleBarVisible = true;
+		
+		/** The title. */
 		private int title,lowerRange,upperRange,defaultRange, interval,identifier,textColor = 0,buttonTextColor = 0,buttonBackgroundSelector = 0,arrowUpImage = 0,arrowDownImage = 0,background = 0;
 		
+		/**
+		 * Instantiates a new builder.
+		 *
+		 * @param title the title
+		 * @param headerText the header text
+		 * @param numberListener the number listener
+		 * @param lowerRange the lower range
+		 * @param upperRange the upper range
+		 * @param defaultRange the default range
+		 * @param interval the interval
+		 * @param identifier the identifier
+		 */
 		public Builder(int title,String headerText,OnNumberSetListener numberListener,int lowerRange,int upperRange,int defaultRange,int interval,int identifier) {
 			this.title=title;
 			this.headerText=headerText;
@@ -525,15 +554,21 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 		}
 
 		/**
-		 * Sets the backgrond.
+		 * Sets the background.
 		 *
-		 * @param resid the new backgrond
+		 * @param resid the new background
 		 */
-		public Builder setBackgrond(int resid){
+		public Builder setBackground(int resid){
 			background=resid;
 			return this;
 		}
 		
+		/**
+		 * Builds the NumberPickerDialog with specified options.
+		 *
+		 * @param fragmentManager the fragment manager
+		 * @param tag the tag
+		 */
 		public void build(FragmentManager fragmentManager,String tag){
 			newInstance(this)
 			.setTextColor(textColor)
@@ -541,7 +576,7 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 			.setButtonBackgroundSelector(buttonBackgroundSelector)
 			.setArrowUpImage(arrowUpImage)
 			.setArrowDownImage(arrowDownImage)
-			.setBackgrond(background)
+			.setBackground(background)
 			.setTitleBarVisible(isTitleBarVisible)
 			.setmUpperRange(upperRange)
 			.setmLowerRange(lowerRange)

@@ -41,17 +41,19 @@ import com.sid.dialoginterface.OnDateTimeSetListener;
 /**
  * The Class AlertFragmentDialog.
  * This class shows Alert Dialog according to passed type.
- * @author Siddhesh
+ * @author Siddhesh S Shetye
+ * @version 2013.2801
+ * @since 1.0
  */
 public final class AlertFragmentDialog extends DialogFragment implements OnDateSetListener,OnTimeSetListener{
 
 	/** The Constant TYPE. */
 	private static final String TITLE="title",MESSAGE="message",POSITIVE="positive",NEGATIVE="negative",TYPE="type",LIST="list";
 
-
 	/** The alert fragment. */
 	private static AlertButtonsClickListener sAlertFragment;
 	
+	/** The s list dialog listener. */
 	private static ListDialogListener sListDialogListener;
 	
 	/** The date time set listener. */
@@ -60,11 +62,12 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	/** Various Response codes and Constants. */
 	public static final int DIALOG_TYPE_OK=988,/**Dialog with Positive button*/
 			DIALOG_TYPE_YES_NO=888,/**Dialog with Positive & Negative button*/
-			DATE_DIALOG=214,/**DATE picker dialog*/
-			TIME_DIALOG=686,/**Time picker Dialog*/
 			SIMPLE_LIST_DIALOG=687,/**Simple List Dialog*/
 			SINGLE_CHOICE_LIST_DIALOG=682,/**Radio List Dialog*/
 			MULTI_CHOICE_LIST_DIALOG=852;/**Multi Choice List Dialog*/
+	
+	private static final int DATE_DIALOG=214,/**DATE picker dialog*/
+							 TIME_DIALOG=686;/**Time picker Dialog*/
 	
 	private static int sYear,/**Current year*/
 					   sMonth,/**Current month*/
@@ -72,9 +75,11 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 					   sHour,/**Current hour*/
 					   sMinute;/**Current minutes*/
 	
+	/** The identifier. */
 	private static int identifier;
 	
-	String selectedChoice;
+	/** The selected choice. */
+	private String selectedChoice;
 
 	/**
 	 * New instance of alert dialog.
@@ -86,7 +91,6 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param positiveText the positive text
 	 * @param negativeText the negative text
 	 * @return the fragment dialog
-	 * @author Siddhesh
 	 */
 	public static AlertFragmentDialog newInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText,int identifier) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
@@ -177,6 +181,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 		}
 		switch(type){
 		case DIALOG_TYPE_OK:
+			/*show dialog with positive button*/
 			return new AlertDialog.Builder(getActivity())
 			.setTitle(title)
 			.setMessage(message)
@@ -193,6 +198,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 
 					.create();
 		case DIALOG_TYPE_YES_NO:
+			/*show dialog with positive and negative button*/
 			return new AlertDialog.Builder(getActivity())
 			.setTitle(title)
 			.setMessage(message)
@@ -218,15 +224,19 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 							)
 							.create();
 		case DATE_DIALOG:
+			/*show date picker dialog*/
 			return new DatePickerDialog(getActivity(), AlertFragmentDialog.this, sYear, sMonth, sDate);	
-			
 		case TIME_DIALOG:
+			/*show time picker dialog*/
 			return new TimePickerDialog(getActivity(), AlertFragmentDialog.this, sHour, sMinute, true);
 		case SIMPLE_LIST_DIALOG:
+			/*show simple list dialog*/
 			return getAlertBuilder(title, list, android.R.layout.select_dialog_item).create();
 		case SINGLE_CHOICE_LIST_DIALOG:
+			/*show single choice list dialog*/
 			return getAlertBuilder(title, list, android.R.layout.select_dialog_singlechoice).create();
 		case MULTI_CHOICE_LIST_DIALOG:
+			/*show multichoice list dialog*/
 			AlertDialog.Builder multipleChoice = new AlertDialog.Builder(getActivity());
             multipleChoice.setTitle(title);
             final ArrayList<String> alSelectedItem = new ArrayList<String>();

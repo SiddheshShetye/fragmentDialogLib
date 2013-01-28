@@ -27,66 +27,32 @@ import com.sid.dialoginterface.ViewDialogListener;
 
 /**
  * The Class ViewDialogFragment.
- * This clas gives a fragment dialog with users custome view
- * @author Siddhesh
+ * This class gives a fragment dialog with users custom view
+ * @author Siddhesh S Shetye
+ * @version 2013.2801
+ * @since 1.0
  */
 public class ViewDialogFragment extends DialogFragment{
 
 	/** The ViewDialogInterface object */
 	private ViewDialogListener interfaceDialog;
 	
-	/** The title bar flag. */
-	//private boolean isTitleBarVisible;
-	
-	/** The title bar text. */
-	//private String mTitle;
-	
-	/** The anim for dialog. */
-	//private Integer mAnim;
-	
-	//private View mView;
-	
+	/** The identifier. */
 	private int identifier;
 	
+	/** The Constant VIEW. */
 	private static final String VIEW="view",THEME="theme",STYLE="style",IDENTIFIER="identifier",
 			CANCELABLE="cancelable",TITLE_BAR_VISIBLE="title_bar_visible",TITLE="title",ANIMATION="animation"; 
 	
 	/**
 	 * New instance.
 	 *
-	 * @param ctx the ctx
-	 * @param view the view
-	 * @param style the style
-	 * @param theme the theme
-	 * @param viewDialogInterface the view dialog interface
-	 * @param cancelable the cancelable
-	 * @return the view dialog fragment
-	 */
-	/*public static ViewDialogFragment newInstance(Integer view,int style,Integer theme,boolean cancelable,ViewDialogListener viewDialogListener,int identifier) {
-		interfaceDialog=viewDialogListener;
-		Bundle args = new Bundle();
-		args.putInt(VIEW, view);
-		args.putInt(THEME, theme);
-		args.putInt(STYLE, style);
-		args.putInt(IDENTIFIER, identifier);
-		ViewDialogFragment frag = new ViewDialogFragment();
-		frag.setArguments(args);
-
-		return frag;
-
-	}*/
-
-
-	/**
-	 * New instance.
-	 *
-	 * @param ctx the ctx
+	 * @param ctx the context
 	 * @param view the view
 	 * @param viewDialogInterface the view dialog interface
 	 * @return the view dialog fragment
 	 */
 	public static ViewDialogFragment newInstance(final Builder builder){//Integer view,ViewDialogListener viewDialogListener,int identifier) {
-		//interfaceDialog=viewDialogListener;
 		Bundle args = new Bundle();
 		args.putInt(VIEW, builder.view);
 		args.putInt(IDENTIFIER, builder.identifier);
@@ -123,33 +89,16 @@ public class ViewDialogFragment extends DialogFragment{
 		
 		int v=bundle.getInt(VIEW);
 		View view=inflater.inflate(v, null);
-		//mView=view;
-		interfaceDialog.getView(identifier, view);
+		interfaceDialog.getView(identifier, view, getDialog());
 		return view;
 	}
-
-	/**
-	 * Sets the dialog title.
-	 *
-	 * @param isTitleBarVisible the is title bar visible
-	 * @param title the title
-	 */
-	/*public void setDialogTitle(boolean isTitleBarVisible,String title){
-		this.isTitleBarVisible=isTitleBarVisible;
-		mTitle=title;
-	}*/
 	
 	/**
-	 * Sets the dialog animation.
+	 * Sets the interface dialog.
 	 *
-	 * @param animation the new dialog animation
+	 * @param interfaceDialog the interface dialog
+	 * @return the view dialog fragment
 	 */
-	/*public void setDialogAnimation(Integer animation){
-		mAnim=animation;
-	}*/
-	
-	
-	
 	public ViewDialogFragment setInterfaceDialog(ViewDialogListener interfaceDialog) {
 		this.interfaceDialog = interfaceDialog;
 		return this;
@@ -157,41 +106,124 @@ public class ViewDialogFragment extends DialogFragment{
 
 
 
+	/**
+	 * The Class Builder.
+	 * This class builds a custom alert dialog for user.
+	 * @author Siddhesh S Shetye
+	 * @version 2013.2801
+	 * @since 1.0
+	 */
 	public static class Builder{
-		Integer view,mAnim=0;
-		int theme = 0,style = 0;
-		ViewDialogListener viewDialogListener;
-		int identifier;
-		boolean isTitleBarVisible=true,isCancelable=true;
-		String mTitle;
+		
+		/** The view. */
+		private Integer view,mAnim=0;
+		
+		/** The theme. */
+		private int theme = 0,style = 0;
+		
+		/** The view dialog listener. */
+		private ViewDialogListener viewDialogListener;
+		
+		/** The identifier. */
+		private int identifier;
+		
+		/** The is title bar visible. */
+		private boolean isTitleBarVisible=true,isCancelable=true;
+		
+		/** The m title. */
+		private String mTitle;
+		
+		/** The bundle. */
+		@SuppressWarnings("unused")
+		private Bundle bundle;
+		
+		/**
+		 * Instantiates a new builder.
+		 *
+		 * @param view the view
+		 * @param viewDialogListener the view dialog listener
+		 * @param identifier the identifier
+		 */
 		public Builder(Integer view,ViewDialogListener viewDialogListener,int identifier) {
 			this.view=view;
 			this.viewDialogListener=viewDialogListener;
 			this.identifier=identifier;
 		}
 		
-		public void setDialogTitleBar(boolean isTitleBarVisible){//,){
+		/**
+		 * Sets the dialog title bar.
+		 *
+		 * @param isTitleBarVisible the is title bar visible
+		 * @return the builder
+		 */
+		public Builder setDialogTitleBar(boolean isTitleBarVisible){
 			this.isTitleBarVisible=isTitleBarVisible;
-			
+			return this;
 		}
 		
-		public void setDialogTitle(String title){//,String title){
+		/**
+		 * Sets the dialog title.
+		 *
+		 * @param title the title
+		 * @return the builder
+		 */
+		public Builder setDialogTitle(String title){
 			mTitle=title;
+			return this;
 		}
 		
-		public void setIsCancelable(boolean cancelable){//,String title){
+		/**
+		 * Sets the is cancelable.
+		 *
+		 * @param cancelable the cancelable
+		 * @return the builder
+		 */
+		public Builder setIsCancelable(boolean cancelable){
 			isCancelable=cancelable;
+			return this;
 		}
 		
-		public void setStyle(int style,int theme){
+		/**
+		 * Sets the style.
+		 *
+		 * @param style the style
+		 * @param theme the theme
+		 * @return the builder
+		 */
+		public Builder setStyle(int style,int theme){
 			this.style=style;
 			this.theme=theme;
+			return this;
 		}
 		
-		public void setDialogAnimation(Integer animation){
+		/**
+		 * Sets the dialog animation.
+		 *
+		 * @param animation the animation
+		 * @return the builder
+		 */
+		public Builder setDialogAnimation(Integer animation){
 			mAnim=animation;
+			return this;
 		}
 		
+		/**
+		 * Sets the bundle.
+		 *
+		 * @param bundle the bundle
+		 * @return the builder
+		 */
+		public Builder setBundle(Bundle bundle){
+			this.bundle=bundle;
+			return this;
+		}
+		
+		/**
+		 * Builds the custom dialog according to specified options.
+		 *
+		 * @param fm the fragment manager
+		 * @param tag the tag
+		 */
 		public void build(FragmentManager fm,String tag){
 			newInstance(this).setInterfaceDialog(viewDialogListener).show(fm, tag);
 		}
