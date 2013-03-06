@@ -15,6 +15,7 @@
  */
 package com.commonsdroid.fragmentdialog;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -40,7 +41,8 @@ import com.commonsdroid.dialoginterface.OnNumberSetListener;
  * @version 2013.2801
  * @since 1.0
  */
-public class NumberPickerDialog extends DialogFragment implements OnClickListener{
+@SuppressLint("ValidFragment")
+public final class NumberPickerDialog extends DialogFragment implements OnClickListener{
 
 
 	private int mUpperRange,/**Upper range for NumberPicker*/
@@ -62,7 +64,7 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 	/** The number listener. */
 	private OnNumberSetListener mNumberListener; 
 
-	/** The TextViews for next value, preveious value and headertext. */
+	/** The TextViews for next value, previous value and headertext. */
 	private TextView lblHeaderText,lblPrevValue,lblNextValue;
 
 	/** The btn set & cancel. */
@@ -92,6 +94,8 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 
 	/** The identifier. */
 	private static int identifier;
+	
+	private NumberPickerDialog() {}
 
 	/**
 	 * Gets the single instance of NumberPickerDialog.
@@ -119,6 +123,8 @@ public class NumberPickerDialog extends DialogFragment implements OnClickListene
 		return frag;
 	}
 
+	
+	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */

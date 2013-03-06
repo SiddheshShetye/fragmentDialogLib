@@ -93,12 +93,12 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param negativeText the negative text
 	 * @return the fragment dialog
 	 */
-	public static AlertFragmentDialog newInstance(int title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText,int identifier) {
+	public static AlertFragmentDialog newInstance(String title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText,int identifier) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		sAlertFragment=alert;
 		AlertFragmentDialog.identifier=identifier;
 		Bundle args = new Bundle();
-		args.putInt(TITLE, title);
+		args.putString(TITLE, title);
 		args.putInt(MESSAGE, message);
 		args.putInt(TYPE, type);
 		args.putString(POSITIVE,positiveText);
@@ -117,11 +117,11 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param identifier the identifier
 	 * @return the alert fragment dialog
 	 */
-	public static AlertFragmentDialog newInstance(int title,ArrayList<String> list,ListDialogListener alert,int type,int identifier) {
+	public static AlertFragmentDialog newInstance(String title,ArrayList<String> list,ListDialogListener alert,int type,int identifier) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		sListDialogListener=alert;
 		Bundle args = new Bundle();
-		args.putInt(TITLE, title);
+		args.putString(TITLE, title);
 		AlertFragmentDialog.identifier=identifier;
 		args.putStringArrayList(LIST, list);
 		args.putInt(TYPE, type);
@@ -167,7 +167,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle details=getArguments();
-		int title = details.getInt(TITLE,0);
+		String title = details.getString(TITLE);
 		int message = details.getInt(MESSAGE,0);
 		int type = details.getInt(TYPE);
 		final ArrayList<String> list= details.getStringArrayList(LIST);
@@ -285,7 +285,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param layout the layout
 	 * @return the alert builder
 	 */
-	private AlertDialog.Builder getAlertBuilder(int title,final ArrayList<String> list,int layout){
+	private AlertDialog.Builder getAlertBuilder(String title,final ArrayList<String> list,int layout){
 		AlertDialog.Builder singleChoiceListDialog = new AlertDialog.Builder(getActivity());
 		singleChoiceListDialog.setTitle(title);
 		final ArrayAdapter<String> arraySingleChoiceAdapter = new ArrayAdapter<String>(

@@ -15,6 +15,7 @@
  */
 package com.commonsdroid.fragmentdialog;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -32,18 +33,20 @@ import com.commonsdroid.dialoginterface.ViewDialogListener;
  * @version 2013.2801
  * @since 1.0
  */
+@SuppressLint("ValidFragment")
 public class ViewDialogFragment extends DialogFragment{
 
 	/** The ViewDialogInterface object */
 	private ViewDialogListener interfaceDialog;
-	
+
 	/** The identifier. */
 	private int identifier;
-	
+
 	/** The Constant VIEW. */
 	private static final String VIEW="view",THEME="theme",STYLE="style",IDENTIFIER="identifier",
-			CANCELABLE="cancelable",TITLE_BAR_VISIBLE="title_bar_visible",TITLE="title",ANIMATION="animation"; 
-	
+			CANCELABLE="cancelable",TITLE_BAR_VISIBLE="title_bar_visible",TITLE="title",ANIMATION="animation",
+			BUNDLE="bundle"; 
+
 	/**
 	 * New instance.
 	 *
@@ -62,12 +65,16 @@ public class ViewDialogFragment extends DialogFragment{
 		args.putBoolean(TITLE_BAR_VISIBLE, builder.isTitleBarVisible);
 		args.putString(TITLE, builder.mTitle);
 		args.putInt(ANIMATION, builder.mAnim);
+		args.putBundle(BUNDLE, builder.bundle);
 		ViewDialogFragment frag = new ViewDialogFragment();
 		frag.setArguments(args);
 
 		return frag;
 
 	}
+
+
+	private ViewDialogFragment() {}
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -77,22 +84,26 @@ public class ViewDialogFragment extends DialogFragment{
 			Bundle savedInstanceState) {
 		Bundle bundle=getArguments();
 		if(!bundle.getBoolean(TITLE_BAR_VISIBLE,true))
-				getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+			getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		else if(bundle.getString(TITLE) != null)
-				getDialog().setTitle(bundle.getString(TITLE));	
+			getDialog().setTitle(bundle.getString(TITLE));	
 		if(bundle.getInt(ANIMATION) != 0)
-				getDialog().getWindow().getAttributes().windowAnimations = bundle.getInt(ANIMATION);
+			getDialog().getWindow().getAttributes().windowAnimations = bundle.getInt(ANIMATION);
 		if(bundle.getInt(STYLE) != 0 && bundle.getInt(THEME) != 0)
 			setStyle(bundle.getInt(STYLE), bundle.getInt(THEME));
-		
+
 		setCancelable(bundle.getBoolean(CANCELABLE));
-		
+
 		int v=bundle.getInt(VIEW);
 		View view=inflater.inflate(v, null);
 		interfaceDialog.getView(identifier, view, getDialog());
 		return view;
 	}
-	
+
+	public Bundle getBundle(){
+		return getArguments().getBundle(BUNDLE);
+	}
+
 	/**
 	 * Sets the interface dialog.
 	 *
@@ -114,29 +125,29 @@ public class ViewDialogFragment extends DialogFragment{
 	 * @since 1.0
 	 */
 	public static class Builder{
-		
+
 		/** The view. */
 		private Integer view,mAnim=0;
-		
+
 		/** The theme. */
 		private int theme = 0,style = 0;
-		
+
 		/** The view dialog listener. */
 		private ViewDialogListener viewDialogListener;
-		
+
 		/** The identifier. */
 		private int identifier;
-		
+
 		/** The is title bar visible. */
 		private boolean isTitleBarVisible=true,isCancelable=true;
-		
+
 		/** The m title. */
 		private String mTitle;
-		
+
 		/** The bundle. */
-		@SuppressWarnings("unused")
+
 		private Bundle bundle;
-		
+
 		/**
 		 * Instantiates a new builder.
 		 *
@@ -149,7 +160,7 @@ public class ViewDialogFragment extends DialogFragment{
 			this.viewDialogListener=viewDialogListener;
 			this.identifier=identifier;
 		}
-		
+
 		/**
 		 * Sets the dialog title bar.
 		 *
@@ -160,7 +171,7 @@ public class ViewDialogFragment extends DialogFragment{
 			this.isTitleBarVisible=isTitleBarVisible;
 			return this;
 		}
-		
+
 		/**
 		 * Sets the dialog title.
 		 *
@@ -171,7 +182,7 @@ public class ViewDialogFragment extends DialogFragment{
 			mTitle=title;
 			return this;
 		}
-		
+
 		/**
 		 * Sets the is cancelable.
 		 *
@@ -182,7 +193,7 @@ public class ViewDialogFragment extends DialogFragment{
 			isCancelable=cancelable;
 			return this;
 		}
-		
+
 		/**
 		 * Sets the style.
 		 *
@@ -195,7 +206,7 @@ public class ViewDialogFragment extends DialogFragment{
 			this.theme=theme;
 			return this;
 		}
-		
+
 		/**
 		 * Sets the dialog animation.
 		 *
@@ -206,7 +217,7 @@ public class ViewDialogFragment extends DialogFragment{
 			mAnim=animation;
 			return this;
 		}
-		
+
 		/**
 		 * Sets the bundle.
 		 *
@@ -217,7 +228,7 @@ public class ViewDialogFragment extends DialogFragment{
 			this.bundle=bundle;
 			return this;
 		}
-		
+
 		/**
 		 * Builds the custom dialog according to specified options.
 		 *
@@ -228,5 +239,5 @@ public class ViewDialogFragment extends DialogFragment{
 			newInstance(this).setInterfaceDialog(viewDialogListener).show(fm, tag);
 		}
 	}
-	
+
 }

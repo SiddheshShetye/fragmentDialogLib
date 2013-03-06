@@ -46,7 +46,7 @@ public final class DialogHelper {
 	
 	private static final int DATE_DIALOG=214,/**DATE picker dialog*/
 			 TIME_DIALOG=686;/**Time picker Dialog*/
-	
+	private static String titl="";
 	/**
 	 * Show dialog.
 	 * Shows a dialog with given title and message with OK button and cancelable true.
@@ -55,7 +55,20 @@ public final class DialogHelper {
 	 * @param message the message
 	 * @param identifier the identifier
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,int identifier){
+	public static void showDialog(FragmentManager fm,int title,int message,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		showDialog(fm, titl, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, CANCELABLE,null,null,identifier);
+	}
+	
+	/**
+	 * Show dialog.
+	 * Shows a dialog with given title and message with OK button and cancelable true.
+	 * @param fm the fragment manager
+	 * @param title the title text
+	 * @param message the message
+	 * @param identifier the identifier
+	 */
+	public static void showDialog(FragmentManager fm,String title,int message,int identifier){
 		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, CANCELABLE,null,null,identifier);
 	}
 	
@@ -70,7 +83,22 @@ public final class DialogHelper {
 	 * @param positiveText the positive text
 	 * @param identifier the identifier
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,String positiveText,int identifier){
+	public static void showDialog(FragmentManager fm,int title,int message,String positiveText,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		showDialog(fm, titl, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
+	}
+	
+	/**
+	 * Show dialog.
+	 * Shows a dialog with given title,message with OK button,cancelable true and specified positive
+	 * button text.
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param message the message
+	 * @param positiveText the positive text
+	 * @param identifier the identifier
+	 */
+	public static void showDialog(FragmentManager fm,String title,int message,String positiveText,int identifier){
 		showDialog(fm, title, message, null, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
 	}
 	
@@ -86,8 +114,24 @@ public final class DialogHelper {
 	 * @param alertFrag the alert AlertButtonsClickInterface
 	 * @param identifier the identifier
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int identifier){
-		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		showDialog(fm, titl, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
+	}
+	
+	/**
+	 * Show dialog.
+	 * Shows a dialog with given title and message with OK button, 
+	 * cancelable true and <code>AlertButtonsClickInterface</code> object for invoking 
+	 * code on alert button clicks .
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param message the message
+	 * @param alertFrag the alert AlertButtonsClickInterface
+	 * @param identifier the identifier
+	 */
+	public static void showDialog(FragmentManager fm,String title,int message,AlertButtonsClickListener alertFrag,int identifier){
+		showDialog(fm, titl, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,null,null,identifier);
 	}
 	
 	
@@ -103,10 +147,26 @@ public final class DialogHelper {
 	 * @param positiveText the positive text
 	 * @param identifier the identifier
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,String positiveText,int identifier){
-		showDialog(fm, title, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
+	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,String positiveText,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		showDialog(fm, titl, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
 	}
 	
+	/**
+	 * Show dialog.
+	 * Shows a dialog with given title and message with positive button with specified text,
+	 * cancelable true and <code>AlertButtonsClickInterface</code> object for invoking
+	 * code on alert button clicks .
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param message the message
+	 * @param alertFrag the alert <code>AlertButtonsClickInterface</code>
+	 * @param positiveText the positive text
+	 * @param identifier the identifier
+	 */
+	public static void showDialog(FragmentManager fm,String title,int message,AlertButtonsClickListener alertFrag,String positiveText,int identifier){
+		showDialog(fm, titl, message, alertFrag, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
+	}
 	
 	/**
 	 * Show dialog.
@@ -121,7 +181,7 @@ public final class DialogHelper {
 	 * @param cancelable the cancelable use <code>DialogHelper.CANCELABLE</code> or <code>DialogHelper.NOT_CANCELABLE</code>
 	 * @param identifier the identifier
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,int identifier) {
+	public static void showDialog(FragmentManager fm,String title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,int identifier) {
 	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,null,null,identifier);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
@@ -144,7 +204,7 @@ public final class DialogHelper {
 	 * @param negativeText the negative text
 	 * @param identifier the identifier
 	 */
-	public static void showDialog(FragmentManager fm,int title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText,int identifier) {
+	public static void showDialog(FragmentManager fm,String title,int message,AlertButtonsClickListener alertFrag,int type,boolean cancelable,String positiveText,String negativeText,int identifier) {
 	    DialogFragment newFragment = AlertFragmentDialog.newInstance(title,message,alertFrag,type,positiveText,negativeText,identifier);
 	    newFragment.setCancelable(cancelable);
 	    newFragment.show(fm, "dialog");
@@ -220,8 +280,23 @@ public final class DialogHelper {
 	 * @param listDialogListener the list dialog listener
 	 * @param identifier the identifier
 	 */
-	public static void showSimpleListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.SIMPLE_LIST_DIALOG,identifier);
+	public static void showSimpleListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(titl,list,listDialogListener,AlertFragmentDialog.SIMPLE_LIST_DIALOG,identifier);
+		newFragment.show(fm, "dialog");
+	}
+	
+	/**
+	 * Show simple list dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param list the list
+	 * @param listDialogListener the list dialog listener
+	 * @param identifier the identifier
+	 */
+	public static void showSimpleListDialog(FragmentManager fm,String title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(titl,list,listDialogListener,AlertFragmentDialog.SIMPLE_LIST_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -235,8 +310,23 @@ public final class DialogHelper {
 	 * @param listDialogListener the list dialog listener
 	 * @param identifier the identifier
 	 */
-	public static void showSingleChoiceListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.SINGLE_CHOICE_LIST_DIALOG,identifier);
+	public static void showSingleChoiceListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(titl,list,listDialogListener,AlertFragmentDialog.SINGLE_CHOICE_LIST_DIALOG,identifier);
+		newFragment.show(fm, "dialog");
+	}
+	
+	/**
+	 * Show single choice list dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param list the list
+	 * @param listDialogListener the list dialog listener
+	 * @param identifier the identifier
+	 */
+	public static void showSingleChoiceListDialog(FragmentManager fm,String title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(titl,list,listDialogListener,AlertFragmentDialog.SINGLE_CHOICE_LIST_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
@@ -249,8 +339,23 @@ public final class DialogHelper {
 	 * @param listDialogListener the list dialog listener
 	 * @param identifier the identifier
 	 */
-	public static void showMultipleChoiceListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
-		DialogFragment newFragment = AlertFragmentDialog.newInstance(title,list,listDialogListener,AlertFragmentDialog.MULTI_CHOICE_LIST_DIALOG,identifier);
+	public static void showMultipleChoiceListDialog(FragmentManager fm,int title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier,Context context){
+		titl = context.getResources().getString(title);
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(titl,list,listDialogListener,AlertFragmentDialog.MULTI_CHOICE_LIST_DIALOG,identifier);
+		newFragment.show(fm, "dialog");
+	}
+	
+	/**
+	 * Show multiple choice list dialog.
+	 *
+	 * @param fm the fragment manager
+	 * @param title the title
+	 * @param list the list
+	 * @param listDialogListener the list dialog listener
+	 * @param identifier the identifier
+	 */
+	public static void showMultipleChoiceListDialog(FragmentManager fm,String title,ArrayList<String> list,ListDialogListener listDialogListener,int identifier){
+		DialogFragment newFragment = AlertFragmentDialog.newInstance(titl,list,listDialogListener,AlertFragmentDialog.MULTI_CHOICE_LIST_DIALOG,identifier);
 		newFragment.show(fm, "dialog");
 	}
 	
