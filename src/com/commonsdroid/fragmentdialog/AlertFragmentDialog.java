@@ -93,13 +93,13 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	 * @param negativeText the negative text
 	 * @return the fragment dialog
 	 */
-	public static AlertFragmentDialog newInstance(String title,int message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText,int identifier) {
+	public static AlertFragmentDialog newInstance(String title,String message,AlertButtonsClickListener alert,int type,String positiveText,String negativeText,int identifier) {
 		AlertFragmentDialog frag = new AlertFragmentDialog();
 		sAlertFragment=alert;
 		AlertFragmentDialog.identifier=identifier;
 		Bundle args = new Bundle();
 		args.putString(TITLE, title);
-		args.putInt(MESSAGE, message);
+		args.putString(MESSAGE, message);
 		args.putInt(TYPE, type);
 		args.putString(POSITIVE,positiveText);
 		args.putString(NEGATIVE, negativeText);
@@ -168,7 +168,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle details=getArguments();
 		String title = details.getString(TITLE);
-		int message = details.getInt(MESSAGE,0);
+		String message = details.getString(MESSAGE);
 		int type = details.getInt(TYPE);
 		final ArrayList<String> list= details.getStringArrayList(LIST);
 		String positive=getArguments().getString(POSITIVE);
