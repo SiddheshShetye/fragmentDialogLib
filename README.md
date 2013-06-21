@@ -1,11 +1,19 @@
 fragmentDialogLib
 =================
+This Library is developed to reduce redundunt code to show diffrenet types of Dialogs & Toasts.
 
-This library can be used to show alerts with Poitive button Negative Button or both are a dialog with custom View
+This library can be used to show various types of alerts, custom view dialogs, number picker, various types of toasts,
+various types of progress dialogs.
 
-implement AlertButtonsClickInterface to handle positive and negative button clicks.
+implement ViewDialogListener to handle callbacks for custom dialog
+Use ViewDialogFragment.Builder for custome dialog.
+
+implement OnNumberSetListener to handle callbacks for NumberPicker dialog
+Use NumberPickerDialog.Builder for custome dialog.
+
+implement OnDateTimeSetListener to handle callbacks for DateTimePicker dialog
+
 use DialogHelper.showDialog(....) methods to show your alert dialog.
+Use AlertButtonsClickListener to handle callbacks for alert dialog
 
-if you want to create a dialog with custome view implement ViewDialogInterface which will give you dialogs view to
-handle it your way.
-use DialogHelper.ViewDialogFragment(....) for customeview dialog.
+
