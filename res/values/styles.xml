@@ -40,5 +40,16 @@
         <item name="android:windowBackground">@drawable/dialog_full_holo_dark</item>
         <item name="android:colorForeground">#f00</item> 
      </style> 
+     
+    <!-- Progredd dialog style -->
+    <style name="ProgressHUD" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
 </resources>

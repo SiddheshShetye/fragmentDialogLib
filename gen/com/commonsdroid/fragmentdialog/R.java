@@ -8,18 +8,21 @@
 package com.commonsdroid.fragmentdialog;
 
 public final class R {
+    public static final class anim {
+        public static int spinner=0x7f040000;
+    }
     public static final class attr {
     }
     public static final class color {
-        public static int blue_tint=0x7f050001;
-        public static int magenta_tint=0x7f050005;
-        public static int orange_tint=0x7f050004;
-        public static int purple_tint=0x7f050003;
+        public static int blue_tint=0x7f060001;
+        public static int magenta_tint=0x7f060005;
+        public static int orange_tint=0x7f060004;
+        public static int purple_tint=0x7f060003;
         /**   
          */
-        public static int red_tint=0x7f050000;
-        public static int transparent=0x7f050006;
-        public static int yellow_tint=0x7f050002;
+        public static int red_tint=0x7f060000;
+        public static int transparent=0x7f060006;
+        public static int yellow_tint=0x7f060002;
     }
     public static final class drawable {
         public static int dialog_full_holo_dark=0x7f020000;
@@ -30,36 +33,52 @@ public final class R {
         public static int ic_find_previous_holo_dark=0x7f020005;
         public static int ic_find_previous_holo_light=0x7f020006;
         public static int list_back=0x7f020007;
-        public static int search_default=0x7f020008;
-        public static int search_pressed=0x7f020009;
-        public static int search_selector=0x7f02000a;
+        public static int progress_hud_bg=0x7f020008;
+        public static int search_default=0x7f020009;
+        public static int search_pressed=0x7f02000a;
+        public static int search_selector=0x7f02000b;
+        public static int spinner_0=0x7f02000c;
+        public static int spinner_1=0x7f02000d;
+        public static int spinner_10=0x7f02000e;
+        public static int spinner_11=0x7f02000f;
+        public static int spinner_2=0x7f020010;
+        public static int spinner_3=0x7f020011;
+        public static int spinner_4=0x7f020012;
+        public static int spinner_5=0x7f020013;
+        public static int spinner_6=0x7f020014;
+        public static int spinner_7=0x7f020015;
+        public static int spinner_8=0x7f020016;
+        public static int spinner_9=0x7f020017;
     }
     public static final class id {
-        public static int btnCancel=0x7f07000c;
-        public static int btnSet=0x7f07000a;
-        public static int edtSelectedValue=0x7f070005;
-        public static int headSeparate=0x7f070000;
-        public static int ibtnNext=0x7f070008;
-        public static int ibtnPrev=0x7f070002;
-        public static int lblHeaderMessage=0x7f070001;
-        public static int lblNextValue=0x7f070007;
-        public static int lblPrevValue=0x7f070003;
-        public static int seprator1=0x7f070004;
-        public static int seprator2=0x7f070006;
-        public static int seprator3=0x7f070009;
-        public static int view2=0x7f07000b;
+        public static int btnCancel=0x7f08000c;
+        public static int btnSet=0x7f08000a;
+        public static int edtSelectedValue=0x7f080005;
+        public static int headSeparate=0x7f080000;
+        public static int ibtnNext=0x7f080008;
+        public static int ibtnPrev=0x7f080002;
+        public static int lblHeaderMessage=0x7f080001;
+        public static int lblNextValue=0x7f080007;
+        public static int lblPrevValue=0x7f080003;
+        public static int message=0x7f08000e;
+        public static int seprator1=0x7f080004;
+        public static int seprator2=0x7f080006;
+        public static int seprator3=0x7f080009;
+        public static int spinnerImageView=0x7f08000d;
+        public static int view2=0x7f08000b;
     }
     public static final class layout {
         public static int number_picker=0x7f030000;
+        public static int progress_hud=0x7f030001;
     }
     public static final class string {
-        public static int app_name=0x7f040000;
-        public static int cancel=0x7f040004;
-        public static int descrip=0x7f040006;
-        public static int hello_world=0x7f040001;
-        public static int menu_settings=0x7f040002;
-        public static int ok=0x7f040003;
-        public static int set=0x7f040005;
+        public static int app_name=0x7f050000;
+        public static int cancel=0x7f050004;
+        public static int descrip=0x7f050006;
+        public static int hello_world=0x7f050001;
+        public static int menu_settings=0x7f050002;
+        public static int ok=0x7f050003;
+        public static int set=0x7f050005;
     }
     public static final class style {
         /** 
@@ -72,20 +91,23 @@ public final class R {
             backward-compatibility can go here.
         
          */
-        public static int AppBaseTheme=0x7f060000;
+        public static int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static int AppTheme=0x7f060001;
-        public static int OrangeAlertDialogTheme=0x7f060003;
+        public static int AppTheme=0x7f070001;
+        public static int OrangeAlertDialogTheme=0x7f070003;
         /**   
  Orange 
          */
-        public static int OrangeDialogTheme=0x7f060002;
-        public static int RedAlertDialogTheme=0x7f060005;
+        public static int OrangeDialogTheme=0x7f070002;
+        /**  Progredd dialog style 
+         */
+        public static int ProgressHUD=0x7f070007;
+        public static int RedAlertDialogTheme=0x7f070005;
         /**  Red 
          */
-        public static int RedDialogTheme=0x7f060004;
-        public static int myCoolDialog=0x7f060006;
+        public static int RedDialogTheme=0x7f070004;
+        public static int myCoolDialog=0x7f070006;
     }
 }

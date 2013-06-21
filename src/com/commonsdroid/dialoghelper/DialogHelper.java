@@ -17,6 +17,7 @@ package com.commonsdroid.dialoghelper;
 
 import java.util.ArrayList;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -30,13 +31,14 @@ import com.commonsdroid.dialoginterface.OnNumberSetListener;
 import com.commonsdroid.dialoginterface.ViewDialogListener;
 import com.commonsdroid.fragmentdialog.AlertFragmentDialog;
 import com.commonsdroid.fragmentdialog.NumberPickerDialog;
+import com.commonsdroid.fragmentdialog.ProgressHUD;
 import com.commonsdroid.fragmentdialog.ViewDialogFragment;
 
 /**
  * The Class DialogHelper.
  * This class acts as a helper to to show specified dialog
  * @author Siddhesh S Shetye
- * @version 2013.2801
+ * @version 2013.2106
  * @since 1.0
  */
 public final class DialogHelper {
@@ -45,7 +47,14 @@ public final class DialogHelper {
 	public static final boolean CANCELABLE=true,NOT_CANCELABLE=false;
 	
 	private static final int DATE_DIALOG=214,/**DATE picker dialog*/
-			 TIME_DIALOG=686;/**Time picker Dialog*/
+			 TIME_DIALOG=686;
+
+	/** Time picker Dialog. */
+	private static ProgressDialog sProgressDialog;
+	
+	/** The progress dialog. */
+	private static ProgressHUD progressDialog;
+	
 	/**
 	 * Show dialog.
 	 * Shows a dialog with given title and message with OK button and cancelable true.
@@ -83,6 +92,7 @@ public final class DialogHelper {
 	 */
 	public static void showDialog(FragmentManager fm,int title,int message,String positiveText,int identifier,Context context){
 		showDialog(fm, context.getResources().getString(title), context.getResources().getString(message), null, AlertFragmentDialog.DIALOG_TYPE_OK, true,positiveText,null,identifier);
+		
 	}
 	
 	/**
@@ -434,6 +444,102 @@ public final class DialogHelper {
 		newCustomToast.show();
 	}
 	
+	/**
+	 * Show progress dialog.
+	 *
+	 * @param context the context
+	 */
+	public static void showProgressDialog(Context context){
+		showProgressDialog(context,true,"");
+	}
 	
+	/**
+	 * Show progress dialog.
+	 *
+	 * @param context the context
+	 * @param isCancelable cancelable
+	 */
+	public static void showProgressDialog(Context context,boolean isCancelable){
+		showProgressDialog(context,isCancelable,"");
+	}
+	
+	/**
+	 * Show progress dialog.
+	 *
+	 * @param context the context
+	 * @param message the message
+	 */
+	public static void showProgressDialog(Context context,String message){
+		showProgressDialog(context,true,message);
+	}
+		
+	/**
+	 * Show progress dialog.
+	 *
+	 * @param context the context
+	 * @param isCancelable the is cancelable
+	 * @param message the message
+	 */
+	public static void showProgressDialog(Context context,boolean isCancelable,String message){
+		if(sProgressDialog == null)
+			sProgressDialog = new ProgressDialog(context);
+		sProgressDialog.setCancelable(isCancelable);
+		sProgressDialog.setMessage(message);
+		sProgressDialog.show();
+	}
+
+	/**
+	 * Show i phone progress dialog.
+	 *
+	 * @param context the context
+	 */
+	public static void showIPhoneProgressDialog(Context context) {
+		showIPhoneProgressDialog(context,
+				"", true);
+	}
+	
+	/**
+	 * Show i phone progress dialog.
+	 *
+	 * @param context the context
+	 * @param message the message
+	 */
+	public static void showIPhoneProgressDialog(Context context,String message) {
+		showIPhoneProgressDialog(context,
+				message, true);
+	}
+	
+	/**
+	 * Show i phone progress dialog.
+	 *
+	 * @param context the context
+	 * @param isCancelable the is cancelable
+	 */
+	public static void showIPhoneProgressDialog(Context context,boolean isCancelable) {
+		showIPhoneProgressDialog(context,
+				"", isCancelable);
+	}
+	
+	/**
+	 * Show i phone progress dialog.
+	 *
+	 * @param context the context
+	 * @param message the message
+	 * @param isCancelable the is cancelable
+	 */
+	public static void showIPhoneProgressDialog(Context context, String message,boolean isCancelable) {
+		progressDialog = ProgressHUD.show(context,
+				message, isCancelable );
+	}
+	
+	/**
+	 * Close progress dialog.
+	 */
+	protected void closeProgressDialog() {
+		if (progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.dismiss();
+			progressDialog = null;
+		}
+	}
 	
 }
