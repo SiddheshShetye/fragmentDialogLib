@@ -483,6 +483,8 @@ public final class DialogHelper {
 	public static void showProgressDialog(Context context,boolean isCancelable,String message){
 		if(sProgressDialog == null)
 			sProgressDialog = new ProgressDialog(context);
+		if(sProgressDialog.isShowing())
+			sProgressDialog.dismiss();
 		sProgressDialog.setCancelable(isCancelable);
 		sProgressDialog.setMessage(message);
 		sProgressDialog.show();
