@@ -96,7 +96,7 @@ public class ViewDialogFragment extends DialogFragment{
 
 		int v=bundle.getInt(VIEW);
 		View view=inflater.inflate(v, null);
-		interfaceDialog.getView(identifier, view, getDialog());
+		interfaceDialog.getView(bundle.getInt(IDENTIFIER), view, getDialog());
 		return view;
 	}
 

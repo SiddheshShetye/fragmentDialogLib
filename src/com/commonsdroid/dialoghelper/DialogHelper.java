@@ -53,7 +53,7 @@ public final class DialogHelper {
 	private static ProgressDialog sProgressDialog;
 	
 	/** The progress dialog. */
-	private static ProgressHUD progressDialog;
+	private static ProgressHUD progressDialogHUD;
 	
 	/**
 	 * Show dialog.
@@ -489,7 +489,7 @@ public final class DialogHelper {
 		sProgressDialog.setMessage(message);
 		sProgressDialog.show();
 	}
-
+	
 	/**
 	 * Show i phone progress dialog.
 	 *
@@ -530,17 +530,24 @@ public final class DialogHelper {
 	 * @param isCancelable the is cancelable
 	 */
 	public static void showIPhoneProgressDialog(Context context, String message,boolean isCancelable) {
-		progressDialog = ProgressHUD.show(context,
+		progressDialogHUD = ProgressHUD.show(context,
 				message, isCancelable );
 	}
 	
 	/**
 	 * Close progress dialog.
 	 */
-	protected void closeProgressDialog() {
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-			progressDialog = null;
+	public static void closeIPhoneProgressDialog() {
+		if (progressDialogHUD != null && progressDialogHUD.isShowing()) {
+			progressDialogHUD.dismiss();
+			progressDialogHUD = null;
+		}
+	}
+	
+	public static void closeProgressDialog() {
+		if (sProgressDialog != null && sProgressDialog.isShowing()) {
+			sProgressDialog.dismiss();
+			sProgressDialog = null;
 		}
 	}
 	
