@@ -12,6 +12,7 @@ import android.widget.TextView;
 /**
  * The Class ProgressHUD.
  * @author Rishi
+ * @see <a href="https://github.com/rishioid">Rishioid</a>
  */
 public class ProgressHUD extends Dialog {
 	
