@@ -19,12 +19,15 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
 import com.commonsdroid.dialoginterface.ViewDialogListener;
+import com.google.android.gms.maps.SupportMapFragment;
 
 /**
  * The Class ViewDialogFragment.
@@ -42,10 +45,17 @@ public class ViewDialogFragment extends DialogFragment{
 	/** The identifier. */
 	private int identifier;
 
+	/** The map fragment. */
+	private SupportMapFragment fragment;
+
 	/** The Constant VIEW. */
 	private static final String VIEW="view",THEME="theme",STYLE="style",IDENTIFIER="identifier",
 			CANCELABLE="cancelable",TITLE_BAR_VISIBLE="title_bar_visible",TITLE="title",ANIMATION="animation",
-			BUNDLE="bundle"; 
+			BUNDLE="bundle";
+
+	private static final String WIDTH = "width";
+	private static final String HEIGHT = "height";
+	private static final String MAP = "map";
 
 	/**
 	 * New instance.
@@ -66,15 +76,22 @@ public class ViewDialogFragment extends DialogFragment{
 		args.putString(TITLE, builder.mTitle);
 		args.putInt(ANIMATION, builder.mAnim);
 		args.putBundle(BUNDLE, builder.bundle);
+		args.putInt(WIDTH, builder.width);
+		args.putInt(HEIGHT, builder.height);
+		args.putInt(MAP, builder.mContainer);
 		ViewDialogFragment frag = new ViewDialogFragment();
 		frag.setArguments(args);
 
 		return frag;
 
 	}
+	
+	
 
 
-	private ViewDialogFragment() {}
+	private ViewDialogFragment() {
+		fragment = new SupportMapFragment();
+	}
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -83,6 +100,19 @@ public class ViewDialogFragment extends DialogFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Bundle bundle=getArguments();
+//		LayoutParams params = getDialog().getWindow().getAttributes(); 
+//	    params.height = bundle.getInt(HEIGHT); //fixed height
+//	    params.width = bundle.getInt(WIDTH); //fixed width
+//	    params.alpha = 1.0f;
+//	    params.dimAmount = 0.5f;
+	    if(bundle.getInt(WIDTH) != 0 && bundle.getInt(HEIGHT) != 0)
+	    	getDialog().getWindow().setLayout(bundle.getInt(WIDTH), bundle.getInt(HEIGHT));
+	    else{
+	    	Log.d("CHECK DIALOG", "0 0");
+	    }
+//	    getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params); 
+	    
+		
 		if(!bundle.getBoolean(TITLE_BAR_VISIBLE,true))
 			getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		else if(bundle.getString(TITLE) != null)
@@ -93,10 +123,17 @@ public class ViewDialogFragment extends DialogFragment{
 			setStyle(bundle.getInt(STYLE), bundle.getInt(THEME));
 
 		setCancelable(bundle.getBoolean(CANCELABLE));
+		
+		
 
 		int v=bundle.getInt(VIEW);
 		View view=inflater.inflate(v, null);
+		
 		interfaceDialog.getView(bundle.getInt(IDENTIFIER), view, getDialog());
+		if(bundle.getInt(MAP) > 0 ){
+			FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+			transaction.add(bundle.getInt(MAP), fragment).commit();
+		}
 		return view;
 	}
 
@@ -113,6 +150,10 @@ public class ViewDialogFragment extends DialogFragment{
 	public ViewDialogFragment setInterfaceDialog(ViewDialogListener interfaceDialog) {
 		this.interfaceDialog = interfaceDialog;
 		return this;
+	}
+	
+	public SupportMapFragment getSupportMap(){
+		return ViewDialogFragment.this.fragment;
 	}
 
 
@@ -147,6 +188,14 @@ public class ViewDialogFragment extends DialogFragment{
 		/** The bundle. */
 
 		private Bundle bundle;
+
+		private int width;
+
+		private int height;
+
+		private int mContainer;
+		
+		private SupportMapFragment mMapFragment;
 
 		/**
 		 * Instantiates a new builder.
@@ -228,6 +277,39 @@ public class ViewDialogFragment extends DialogFragment{
 			this.bundle=bundle;
 			return this;
 		}
+		
+		/**
+		 * Sets the dimens.
+		 *
+		 * @param width the width
+		 * @param height the height
+		 * @return the builder
+		 */
+		public Builder setDimens(int width,int height){
+			this.width = width;
+			this.height = height;
+			return this;
+		}
+		
+		/**
+		 * Adds the support map to specified container.
+		 *
+		 * @param container the container
+		 * @return the builder
+		 */
+		public Builder addSupportMap(int container){
+			mContainer = container;
+			return this;
+		}
+		
+		/**
+		 * Gets the support map.<br/>Use this method after build
+		 *
+		 * @return the support map
+		 */
+		public SupportMapFragment getSupportMap(){
+			return mMapFragment;
+		}
 
 		/**
 		 * Builds the custom dialog according to specified options.
@@ -236,8 +318,12 @@ public class ViewDialogFragment extends DialogFragment{
 		 * @param tag the tag
 		 */
 		public void build(FragmentManager fm,String tag){
-			newInstance(this).setInterfaceDialog(viewDialogListener).show(fm, tag);
+			ViewDialogFragment frag = newInstance(this);
+			mMapFragment = frag.getSupportMap();
+			frag.setInterfaceDialog(viewDialogListener).show(fm, tag);
 		}
+		
+		
 	}
 
 }
