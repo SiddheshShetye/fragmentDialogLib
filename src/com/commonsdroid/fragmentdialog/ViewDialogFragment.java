@@ -56,6 +56,8 @@ public class ViewDialogFragment extends DialogFragment{
 	private static final String WIDTH = "width";
 	private static final String HEIGHT = "height";
 	private static final String MAP = "map";
+	
+	private static DialogStateListener stateListener;
 
 	/**
 	 * New instance.
@@ -67,6 +69,7 @@ public class ViewDialogFragment extends DialogFragment{
 	 */
 	public static ViewDialogFragment newInstance(final Builder builder){//Integer view,ViewDialogListener viewDialogListener,int identifier) {
 		Bundle args = new Bundle();
+		stateListener = builder.listener;
 		args.putInt(VIEW, builder.view);
 		args.putInt(IDENTIFIER, builder.identifier);
 		args.putBoolean(CANCELABLE, builder.isCancelable);
@@ -124,16 +127,16 @@ public class ViewDialogFragment extends DialogFragment{
 
 		setCancelable(bundle.getBoolean(CANCELABLE));
 		
-		
-
-		int v=bundle.getInt(VIEW);
-		View view=inflater.inflate(v, null);
-		
-		interfaceDialog.getView(bundle.getInt(IDENTIFIER), view, getDialog());
 		if(bundle.getInt(MAP) > 0 ){
 			FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 			transaction.add(bundle.getInt(MAP), fragment).commit();
 		}
+
+		int v=bundle.getInt(VIEW);
+		View view=inflater.inflate(v, null);
+		identifier = bundle.getInt(IDENTIFIER);
+		interfaceDialog.getView(identifier, view, getDialog());
+		
 		return view;
 	}
 
@@ -155,7 +158,27 @@ public class ViewDialogFragment extends DialogFragment{
 	public SupportMapFragment getSupportMap(){
 		return ViewDialogFragment.this.fragment;
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(stateListener != null){
+			stateListener.onDialogResume(identifier);
+		}
+	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		if(stateListener != null){
+			stateListener.onDialogPause(identifier);
+		}
+	}
+	
+	public interface DialogStateListener{
+		public void onDialogPause(int identifier);
+		public void onDialogResume(int identifier);
+	}
 
 
 	/**
@@ -196,6 +219,8 @@ public class ViewDialogFragment extends DialogFragment{
 		private int mContainer;
 		
 		private SupportMapFragment mMapFragment;
+		
+		private DialogStateListener listener;
 
 		/**
 		 * Instantiates a new builder.
@@ -309,6 +334,16 @@ public class ViewDialogFragment extends DialogFragment{
 		 */
 		public SupportMapFragment getSupportMap(){
 			return mMapFragment;
+		}
+		
+		/**
+		 * Sets the dialog state listener.
+		 *
+		 * @param listener the new dialog state listener
+		 */
+		public Builder setDialogStateListener(DialogStateListener listener){
+			this.listener = listener;
+			return this;
 		}
 
 		/**
