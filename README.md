@@ -1,5 +1,5 @@
 ========================================================================================================================
-FragmentDialog Libreary
+FragmentDialog Library
 ========================================================================================================================
 <pre>This Library is developed to reduce redundunt code to show diffrenet types of Dialogs & Toasts.
 
