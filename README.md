@@ -25,13 +25,13 @@ use
 To getCallBacks from Custom View Dialogs implement ViewDialogListener.<br/>
 Use
 ```java 
-ViewDialogFragment.Builder for custome Custom View Dialog.
+ViewDialogFragment.Builder to custom Custom View Dialog.
 ```
 
 To getCallBacks from Custom Number Picker Dialog implement OnNumberSetListener.<br/>
 Use 
 ```java
-NumberPickerDialog.Builder for show a NumberPickerDialog
+NumberPickerDialog.Builder to show a NumberPickerDialog
 ```
 
 To getCallBacks from DatePickerDialog implement OnDateTimeSetListener.<br/>
