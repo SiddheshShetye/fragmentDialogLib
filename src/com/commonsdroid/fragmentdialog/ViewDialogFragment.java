@@ -108,10 +108,10 @@ public class ViewDialogFragment extends DialogFragment{
 //	    params.width = bundle.getInt(WIDTH); //fixed width
 //	    params.alpha = 1.0f;
 //	    params.dimAmount = 0.5f;
-	    if(bundle.getInt(WIDTH) != 0 && bundle.getInt(HEIGHT) != 0)
+	    if(bundle.getInt(WIDTH,0) != 0 && bundle.getInt(HEIGHT,0) != 0)
 	    	getDialog().getWindow().setLayout(bundle.getInt(WIDTH), bundle.getInt(HEIGHT));
 	    else{
-	    	Log.d("CHECK DIALOG", "0 0");
+	    	Log.d("CHECK HEIGHT", "0 0");
 	    }
 //	    getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params); 
 	    
@@ -122,8 +122,11 @@ public class ViewDialogFragment extends DialogFragment{
 			getDialog().setTitle(bundle.getString(TITLE));	
 		if(bundle.getInt(ANIMATION) != 0)
 			getDialog().getWindow().getAttributes().windowAnimations = bundle.getInt(ANIMATION);
-		if(bundle.getInt(STYLE) != 0 && bundle.getInt(THEME) != 0)
+		if(bundle.getInt(STYLE,-1) != -1 && bundle.getInt(THEME,-1) != -1)
 			setStyle(bundle.getInt(STYLE), bundle.getInt(THEME));
+		 else{
+		    	Log.d("CHECK THEME", "0 0");
+		    }
 
 		setCancelable(bundle.getBoolean(CANCELABLE));
 		

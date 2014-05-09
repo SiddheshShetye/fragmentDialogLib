@@ -30,8 +30,13 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TimePicker;
 
 import com.commonsdroid.dialoginterface.AlertButtonsClickListener;
@@ -226,6 +231,7 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 							.create();
 		case DATE_DIALOG:
 			/*show date picker dialog*/
+			
 			return new DatePickerDialog(getActivity(), AlertFragmentDialog.this, sYear, sMonth, sDate);	
 		case TIME_DIALOG:
 			/*show time picker dialog*/
@@ -238,11 +244,68 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
 			return getAlertBuilder(title, list, android.R.layout.select_dialog_singlechoice).create();
 		case MULTI_CHOICE_LIST_DIALOG:
 			/*show multichoice list dialog*/
-			AlertDialog.Builder multipleChoice = new AlertDialog.Builder(getActivity());
+			final ArrayList<String> alSelectedItem = new ArrayList<String>();
+			final String[] items = (String[]) list.toArray(new String[list.size()]);
+//			AlertDialog.Builder multipleChoice = new AlertDialog.Builder(getActivity());
+			Dialog multipleChoice = new Dialog(getActivity());
+			multipleChoice.setContentView(R.layout.list_multichoice);
             multipleChoice.setTitle(title);
-            final ArrayList<String> alSelectedItem = new ArrayList<String>();
-            final String[] items = (String[]) list.toArray(new String[list.size()]);
-            multipleChoice.setMultiChoiceItems(items, null,
+            ListView listView = (ListView) multipleChoice.findViewById(R.id.lstMultichoiceList);
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            listView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                    // Manage selected items here
+                    
+                    CheckedTextView textView = (CheckedTextView) view;
+                    if(textView.isChecked()) {
+
+                    } else {
+
+                    }
+                    Log.e("CHECK","clicked pos : " + position+" checked : "+textView.isChecked());
+                }
+            });
+            
+            final ArrayAdapter<String> arraySingleChoiceAdapter = new ArrayAdapter<String>(
+	                getActivity(),
+	                android.R.layout.select_dialog_multichoice,list);
+			
+			listView.setAdapter(arraySingleChoiceAdapter);
+			multipleChoice.show();
+			/*multipleChoice.setNegativeButton(R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+			multipleChoice.setPositiveButton(R.string.cancel, new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dismiss();		
+					sListDialogListener.onMultiChoiceSelected(identifier, alSelectedItem);
+				}
+			});*/
+           /* multipleChoice.setPositiveButton(R.string.ok,
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (alSelectedItem.size() != 0) {
+                                sListDialogListener.onMultiChoiceSelected(identifier, alSelectedItem);
+                            }
+                        }
+                    });*/
+//			multipleChoice.create();
+			
+			
+			
+//			singleChoiceListDialog.setCancelable(false);
+           
+            
+           /* multipleChoice.setMultiChoiceItems(items, null,
                     new DialogInterface.OnMultiChoiceClickListener() {
             			@Override
                         public void onClick(DialogInterface dialog, int which,
@@ -270,8 +333,8 @@ public final class AlertFragmentDialog extends DialogFragment implements OnDateS
                                 sListDialogListener.onMultiChoiceSelected(identifier, alSelectedItem);
                             }
                         }
-                    });
-            return multipleChoice.create();
+                    });*/
+            return multipleChoice;//.create();
 
 		}
 		return null;

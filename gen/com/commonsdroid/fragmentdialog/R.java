@@ -233,33 +233,35 @@ containing a value of this type.
         public static int spinner_9=0x7f020033;
     }
     public static final class id {
-        public static int btnCancel=0x7f060011;
-        public static int btnSet=0x7f06000f;
-        public static int edtSelectedValue=0x7f06000a;
-        public static int headSeparate=0x7f060005;
+        public static int btnCancel=0x7f060012;
+        public static int btnSet=0x7f060010;
+        public static int edtSelectedValue=0x7f06000b;
+        public static int headSeparate=0x7f060006;
         public static int hybrid=0x7f060004;
-        public static int ibtnNext=0x7f06000d;
-        public static int ibtnPrev=0x7f060007;
-        public static int lblHeaderMessage=0x7f060006;
-        public static int lblNextValue=0x7f06000c;
-        public static int lblPrevValue=0x7f060008;
-        public static int message=0x7f060013;
+        public static int ibtnNext=0x7f06000e;
+        public static int ibtnPrev=0x7f060008;
+        public static int lblHeaderMessage=0x7f060007;
+        public static int lblNextValue=0x7f06000d;
+        public static int lblPrevValue=0x7f060009;
+        public static int lstMultichoiceList=0x7f060005;
+        public static int message=0x7f060014;
         public static int none=0x7f060000;
         public static int normal=0x7f060001;
         public static int satellite=0x7f060002;
-        public static int seprator1=0x7f060009;
-        public static int seprator2=0x7f06000b;
-        public static int seprator3=0x7f06000e;
-        public static int spinnerImageView=0x7f060012;
+        public static int seprator1=0x7f06000a;
+        public static int seprator2=0x7f06000c;
+        public static int seprator3=0x7f06000f;
+        public static int spinnerImageView=0x7f060013;
         public static int terrain=0x7f060003;
-        public static int view2=0x7f060010;
+        public static int view2=0x7f060011;
     }
     public static final class integer {
         public static int google_play_services_version=0x7f080000;
     }
     public static final class layout {
-        public static int number_picker=0x7f030000;
-        public static int progress_hud=0x7f030001;
+        public static int list_multichoice=0x7f030000;
+        public static int number_picker=0x7f030001;
+        public static int progress_hud=0x7f030002;
     }
     public static final class string {
         /** 
