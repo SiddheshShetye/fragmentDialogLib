@@ -38,7 +38,6 @@ import com.commonsdroid.dialoginterface.OnNumberSetListener;
  * The Class NumberPickerDialog.
  * This class is used to show NumberPickerDialog
  * @author Siddhesh S Shetye
- * @version 2013.2801
  * @since 1.0
  */
 @SuppressLint("ValidFragment")

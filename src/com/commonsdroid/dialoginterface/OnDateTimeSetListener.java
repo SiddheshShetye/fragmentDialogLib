@@ -26,7 +26,6 @@ import android.widget.TimePicker;
  * method is invoked.
  *
  * @author Siddhesh S Shetye
- * @version 2013.2801
  * @since 1.0
  */
 public interface OnDateTimeSetListener {

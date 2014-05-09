@@ -33,7 +33,6 @@ import com.google.android.gms.maps.SupportMapFragment;
  * The Class ViewDialogFragment.
  * This class gives a fragment dialog with users custom view
  * @author Siddhesh S Shetye
- * @version 2013.2801
  * @since 1.0
  */
 @SuppressLint("ValidFragment")
